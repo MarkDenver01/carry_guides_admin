@@ -39,7 +39,7 @@ public interface UserDomain {
 
     GoogleAuthenticatorKey generate2FASecret(Long userId);
 
-    boolean validate2FACode(Long userId, String code);
+    boolean validate2FACode(Long userId, int code);
 
     void enable2FA(Long userId);
 
