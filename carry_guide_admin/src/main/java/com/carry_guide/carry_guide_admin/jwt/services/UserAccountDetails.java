@@ -1,4 +1,4 @@
-package com.carry_guide.carry_guide_admin.security.services;
+package com.carry_guide.carry_guide_admin.jwt.services;
 
 import com.carry_guide.carry_guide_admin.jwt.models.entity.UserAccount;
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -19,7 +19,7 @@ public class UserAccountDetails implements UserDetails {
 
     private Long id;
     private String username;
-    private String mailAddress;
+    private String email;
     @JsonIgnore
     private String password;
     private boolean is2faEnabled;
@@ -27,13 +27,13 @@ public class UserAccountDetails implements UserDetails {
 
     public UserAccountDetails(Long id,
                               String username,
-                              String mailAddress,
+                              String email,
                               String password,
                               boolean is2faEnabled,
                               Collection<? extends GrantedAuthority> authorities) {
         this.id = id;
         this.username = username;
-        this.mailAddress = mailAddress;
+        this.email = email;
         this.password = password;
         this.is2faEnabled = is2faEnabled;
         this.authorities = authorities;
@@ -43,8 +43,8 @@ public class UserAccountDetails implements UserDetails {
         GrantedAuthority authority = new SimpleGrantedAuthority(userAccount.getUserType().getUserState().name());
         return new UserAccountDetails(
                 userAccount.getUserId(),
-                userAccount.getUserName(),
-                userAccount.getMailAddress(),
+                userAccount.getUsername(),
+                userAccount.getEmail(),
                 userAccount.getPassword(),
                 userAccount.isTwoFactorEnabled(),
                 List.of(authority)
@@ -59,8 +59,8 @@ public class UserAccountDetails implements UserDetails {
         return username;
     }
 
-    public String getMailAddress() {
-        return mailAddress;
+    public String getEmail() {
+        return email;
     }
 
     public String getPassword() {

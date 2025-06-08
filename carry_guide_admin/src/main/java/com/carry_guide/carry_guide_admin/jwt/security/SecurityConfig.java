@@ -1,13 +1,13 @@
-package com.carry_guide.carry_guide_admin.security;
+package com.carry_guide.carry_guide_admin.jwt.security;
 
 import com.carry_guide.carry_guide_admin.jwt.models.entity.UserAccount;
 import com.carry_guide.carry_guide_admin.jwt.models.entity.UserType;
 import com.carry_guide.carry_guide_admin.jwt.models.state.UserState;
 import com.carry_guide.carry_guide_admin.jwt.repositories.UserAccountRepository;
 import com.carry_guide.carry_guide_admin.jwt.repositories.UserTypeRepository;
-import com.carry_guide.carry_guide_admin.security.config.OAuth2LoginSuccessHandler;
-import com.carry_guide.carry_guide_admin.security.jwt.AuthEntryPointJwt;
-import com.carry_guide.carry_guide_admin.security.jwt.AuthTokenFilter;
+import com.carry_guide.carry_guide_admin.jwt.security.config.OAuth2LoginSuccessHandler;
+import com.carry_guide.carry_guide_admin.jwt.security.jwt.AuthEntryPointJwt;
+import com.carry_guide.carry_guide_admin.jwt.security.jwt.AuthTokenFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;

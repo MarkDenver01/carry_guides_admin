@@ -1,4 +1,4 @@
-package com.carry_guide.carry_guide_admin.security.model.request;
+package com.carry_guide.carry_guide_admin.jwt.models.request;
 
 import lombok.Getter;
 import lombok.Setter;

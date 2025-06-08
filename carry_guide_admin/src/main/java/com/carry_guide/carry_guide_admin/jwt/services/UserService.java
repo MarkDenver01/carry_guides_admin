@@ -13,7 +13,6 @@ import com.carry_guide.carry_guide_admin.utils.EmailService;
 import com.warrenstrange.googleauth.GoogleAuthenticatorKey;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.security.core.token.TokenService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -137,7 +136,7 @@ public class UserService implements UserDomain {
         passwordResetTokenRepository.save(resetToken);
 
         String resetUrl = frontEndUrl + "/reset-token?token=" + token;
-        emailService.sendPasswordResetEmail(userAccount.getMailAddress(), resetUrl);
+        emailService.sendPasswordResetEmail(userAccount.getEmail(), resetUrl);
     }
 
     @Override
@@ -206,8 +205,8 @@ public class UserService implements UserDomain {
     private UserDto convertToDto(UserAccount userAccount) {
         return new UserDto(
                 userAccount.getUserId(),
-                userAccount.getUserName(),
-                userAccount.getMailAddress(),
+                userAccount.getUsername(),
+                userAccount.getEmail(),
                 userAccount.isAccountNonLocked(),
                 userAccount.isAccountNonExpired(),
                 userAccount.isCredentialsNonExpired(),

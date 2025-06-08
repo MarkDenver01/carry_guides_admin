@@ -21,7 +21,7 @@ import java.time.LocalDateTime;
 @Table(name = "user_account_table",
 uniqueConstraints = {
         @UniqueConstraint(columnNames = "username"),
-        @UniqueConstraint(columnNames = "mail_address")
+        @UniqueConstraint(columnNames = "email")
 })
 public class UserAccount {
     @Id
@@ -32,13 +32,13 @@ public class UserAccount {
     @NotBlank
     @Size(max = 20)
     @Column(name = "username")
-    private String userName;
+    private String username;
 
     @NotBlank
     @Size(max = 50)
     @Email
-    @Column(name = "mail_address")
-    private String mailAddress;
+    @Column(name = "email")
+    private String email;
 
     @Size(max = 120)
     @Column(name = "password")
@@ -70,15 +70,15 @@ public class UserAccount {
     @UpdateTimestamp
     private LocalDateTime updatedDate;
 
-    public UserAccount(String userName, String mailAddress, String password) {
-        this.userName = userName;
-        this.mailAddress = mailAddress;
+    public UserAccount(String username, String email, String password) {
+        this.username = username;
+        this.email = email;
         this.password = password;
     }
 
-    public UserAccount(String userName, String mailAddress) {
-        this.userName = userName;
-        this.mailAddress = mailAddress;
+    public UserAccount(String username, String email) {
+        this.username = username;
+        this.email = email;
     }
 
     @Override

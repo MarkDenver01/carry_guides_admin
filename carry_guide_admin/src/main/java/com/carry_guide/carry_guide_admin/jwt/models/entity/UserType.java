@@ -28,7 +28,7 @@ public class UserType {
     @Column(length = 20, name = "user_state_identifier")
     private UserState userState;
 
-    @OneToMany(mappedBy = "user_state", fetch = FetchType.LAZY, cascade = {CascadeType.MERGE})
+    @OneToMany(mappedBy = "userType", fetch = FetchType.LAZY, cascade = {CascadeType.MERGE})
     @JsonBackReference
     @ToString.Exclude
     private Set<UserAccount> users = new HashSet<>();

@@ -1,4 +1,4 @@
-package com.carry_guide.carry_guide_admin.security.model.request;
+package com.carry_guide.carry_guide_admin.jwt.models.request;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
@@ -18,7 +18,7 @@ public class SignupRequest {
     @NotBlank
     @Size(max = 50)
     @Email
-    private String mailAddress;
+    private String email;
 
     @Setter
     @Getter

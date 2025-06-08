@@ -1,4 +1,4 @@
-package com.carry_guide.carry_guide_admin.security.jwt;
+package com.carry_guide.carry_guide_admin.jwt.security.jwt;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.ServletException;

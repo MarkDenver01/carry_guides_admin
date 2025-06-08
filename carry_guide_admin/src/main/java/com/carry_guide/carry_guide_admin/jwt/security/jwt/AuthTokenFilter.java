@@ -1,7 +1,6 @@
-package com.carry_guide.carry_guide_admin.security.jwt;
+package com.carry_guide.carry_guide_admin.jwt.security.jwt;
 
-import com.carry_guide.carry_guide_admin.security.services.UserAccountDetailsService;
-import io.jsonwebtoken.Jwt;
+import com.carry_guide.carry_guide_admin.jwt.services.UserAccountDetailsService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -12,7 +11,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;

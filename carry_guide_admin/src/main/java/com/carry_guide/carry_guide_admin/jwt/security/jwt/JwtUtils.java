@@ -1,6 +1,6 @@
-package com.carry_guide.carry_guide_admin.security.jwt;
+package com.carry_guide.carry_guide_admin.jwt.security.jwt;
 
-import com.carry_guide.carry_guide_admin.security.services.UserAccountDetails;
+import com.carry_guide.carry_guide_admin.jwt.services.UserAccountDetails;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.MalformedJwtException;

@@ -1,4 +1,4 @@
-package com.carry_guide.carry_guide_admin.security.model.response;
+package com.carry_guide.carry_guide_admin.jwt.models.response;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -11,7 +11,7 @@ import java.util.List;
 public class UserInfoResponse {
     private Long id;
     private String username;
-    private String mailAddress;
+    private String email;
     private boolean accountNonLocked;
     private boolean accountNonExpired;
     private boolean credentialsNonExpired;
@@ -23,7 +23,7 @@ public class UserInfoResponse {
 
     public UserInfoResponse(Long id,
                             String username,
-                            String mailAddress,
+                            String email,
                             boolean accountNonLocked,
                             boolean accountNonExpired,
                             boolean credentialsNonExpired,
@@ -34,7 +34,7 @@ public class UserInfoResponse {
                             List<String> userTypes) {
         this.id = id;
         this.username = username;
-        this.mailAddress = mailAddress;
+        this.email = email;
         this.accountNonLocked = accountNonLocked;
         this.accountNonExpired = accountNonExpired;
         this.credentialsNonExpired = credentialsNonExpired;

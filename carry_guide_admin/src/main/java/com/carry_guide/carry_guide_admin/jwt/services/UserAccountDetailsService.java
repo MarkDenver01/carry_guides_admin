@@ -1,4 +1,4 @@
-package com.carry_guide.carry_guide_admin.security.services;
+package com.carry_guide.carry_guide_admin.jwt.services;
 
 import com.carry_guide.carry_guide_admin.jwt.models.entity.UserAccount;
 import com.carry_guide.carry_guide_admin.jwt.repositories.UserAccountRepository;

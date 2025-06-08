@@ -1,4 +1,4 @@
-package com.carry_guide.carry_guide_admin.security;
+package com.carry_guide.carry_guide_admin.jwt.security;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;

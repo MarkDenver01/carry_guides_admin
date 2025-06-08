@@ -1,12 +1,12 @@
-package com.carry_guide.carry_guide_admin.security.config;
+package com.carry_guide.carry_guide_admin.jwt.security.config;
 
 import com.carry_guide.carry_guide_admin.jwt.models.entity.UserAccount;
 import com.carry_guide.carry_guide_admin.jwt.models.entity.UserType;
 import com.carry_guide.carry_guide_admin.jwt.models.state.UserState;
 import com.carry_guide.carry_guide_admin.jwt.repositories.UserTypeRepository;
 import com.carry_guide.carry_guide_admin.jwt.services.UserService;
-import com.carry_guide.carry_guide_admin.security.jwt.JwtUtils;
-import com.carry_guide.carry_guide_admin.security.services.UserAccountDetails;
+import com.carry_guide.carry_guide_admin.jwt.security.jwt.JwtUtils;
+import com.carry_guide.carry_guide_admin.jwt.services.UserAccountDetails;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -52,14 +52,14 @@ public class OAuth2LoginSuccessHandler extends SavedRequestAwareAuthenticationSu
         if ("google".equals(authenticationToken.getAuthorizedClientRegistrationId())) {
             DefaultOAuth2User principal = (DefaultOAuth2User) authenticationToken.getPrincipal();
             Map<String, Object> attributes = principal.getAttributes();
-            String mailAddress = attributes.getOrDefault("email", "").toString();
+            String email = attributes.getOrDefault("email", "").toString();
             String name = attributes.getOrDefault("name", "").toString();
-            username = mailAddress.split("@")[0];
+            username = email.split("@")[0];
             idAttributeKey = "sub";
 
-            System.out.println("OAUTH: " + mailAddress + " : " + name + ": " + username );
+            System.out.println("OAUTH: " + email + " : " + name + ": " + username );
 
-            userService.findUserByEmail(mailAddress)
+            userService.findUserByEmail(email)
                     .ifPresentOrElse(user -> {
                         DefaultOAuth2User oAuth2User = new DefaultOAuth2User(
                                 List.of(new SimpleGrantedAuthority(
@@ -86,8 +86,8 @@ public class OAuth2LoginSuccessHandler extends SavedRequestAwareAuthenticationSu
                             // Handle the case where the role is not found
                             throw new RuntimeException("Default role not found");
                         }
-                        newUser.setMailAddress(mailAddress);
-                        newUser.setUserName(username);
+                        newUser.setEmail(email);
+                        newUser.setUsername(username);
                         newUser.setSignUpMethod(authenticationToken.getAuthorizedClientRegistrationId());
                         userService.registerUser(newUser);
                         DefaultOAuth2User oAuth2User = new DefaultOAuth2User(
@@ -114,15 +114,15 @@ public class OAuth2LoginSuccessHandler extends SavedRequestAwareAuthenticationSu
         Map<String, Object> attributes = oauth2User.getAttributes();
 
         // extract neccesasry attributes
-        String mailAddress = attributes.get("email").toString();
-        System.out.println("OAuth2LoginSuccessHandler: " + username + " : " + mailAddress);
+        String email = attributes.get("email").toString();
+        System.out.println("OAuth2LoginSuccessHandler: " + username + " : " + email);
 
         Set<SimpleGrantedAuthority> authorities = new HashSet<>(
                 oauth2User.getAuthorities().stream()
                         .map(authority ->
                                 new SimpleGrantedAuthority(authority.getAuthority()))
                         .collect(Collectors.toList()));
-        UserAccount userAccount = userService.findUserByEmail(mailAddress).orElseThrow(
+        UserAccount userAccount = userService.findUserByEmail(email).orElseThrow(
                 () -> new RuntimeException("User not found")
         );
         authorities.add(new SimpleGrantedAuthority(userAccount.getUserType().getUserState().name()));
@@ -131,7 +131,7 @@ public class OAuth2LoginSuccessHandler extends SavedRequestAwareAuthenticationSu
         UserAccountDetails userAccountDetails = new UserAccountDetails(
                 null,
                 username,
-                mailAddress,
+                email,
                 null,
                 false,
                 authorities
