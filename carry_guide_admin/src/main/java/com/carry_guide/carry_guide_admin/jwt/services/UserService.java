@@ -51,7 +51,7 @@ public class UserService implements UserDomain {
                 .findById(userId)
                 .orElseThrow(() -> new RuntimeException("User not found"));
         UserState userState = UserState.valueOf(userType);
-        UserType typeUser = userTypeRepository.findUserTypesBy(userState)
+        UserType typeUser = userTypeRepository.findByUserState(userState)
                 .orElseThrow(() -> new RuntimeException("User type not found"));
         userAccount.setUserType(typeUser);
         userAccountRepository.save(userAccount);

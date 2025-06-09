@@ -87,10 +87,10 @@ public class SecurityConfig {
                                       UserAccountRepository userAccountRepository,
                                       PasswordEncoder passwordEncoder) {
         return args -> {
-            UserType userType = userTypeRepository.findUserTypesBy(UserState.USER_STATE)
+            UserType userType = userTypeRepository.findByUserState(UserState.USER_STATE)
                     .orElseGet(() -> userTypeRepository.save(new UserType(UserState.USER_STATE)));
 
-            UserType adminType = userTypeRepository.findUserTypesBy(UserState.ADMIN_STATE)
+            UserType adminType = userTypeRepository.findByUserState(UserState.ADMIN_STATE)
                     .orElseGet(() -> userTypeRepository.save(new UserType(UserState.ADMIN_STATE)));
 
             if (!userAccountRepository.existsByUsername("user1")) {

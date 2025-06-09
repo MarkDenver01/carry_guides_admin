@@ -26,8 +26,8 @@ import java.io.IOException;
 import java.util.*;
 import java.util.stream.Collectors;
 
-@Component
 @RequiredArgsConstructor
+@Component
 public class OAuth2LoginSuccessHandler extends SavedRequestAwareAuthenticationSuccessHandler {
     @Autowired
     private final UserService userService;
@@ -79,7 +79,7 @@ public class OAuth2LoginSuccessHandler extends SavedRequestAwareAuthenticationSu
                         SecurityContextHolder.getContext().setAuthentication(securityAuth);
                     }, ()-> {
                         UserAccount newUser = new UserAccount();
-                        Optional<UserType> userState = userTypeRepository.findUserTypesBy(UserState.USER_STATE);
+                        Optional<UserType> userState = userTypeRepository.findByUserState(UserState.USER_STATE);
                         if (userState.isPresent()) {
                             newUser.setUserType(userState.get());
                         } else {
