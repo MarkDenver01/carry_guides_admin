@@ -13,12 +13,14 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Lazy;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
@@ -36,6 +38,9 @@ public class SecurityConfig {
     @Autowired
     @Lazy
     OAuth2LoginSuccessHandler authorizedHandler;
+
+    @Autowired
+    CorsConfig corsConfig;
 
     @Bean
     public AuthTokenFilter authTokenFilter() {
@@ -76,16 +81,16 @@ public class SecurityConfig {
     @Bean
     SecurityFilterChain defaultSecurityFilterChain(HttpSecurity http) throws Exception {
         http.csrf(csrf ->
-                csrf.csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
-                        .ignoringRequestMatchers("/api/auth/public/**"));
-
+                csrf.csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse()));
+        http.cors(cors -> corsConfig.corsConfigurationSource());
         http.authorizeHttpRequests((requests)
         -> requests
-                .requestMatchers("/api/admin/**").hasRole("ADMIN")
-                .requestMatchers("/api/csrf_token").permitAll()
-                .requestMatchers("/api/auth/public/**").permitAll()
-                .requestMatchers("/oauth2/**").permitAll()
-                .anyRequest().authenticated())
+                        .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
+                        .requestMatchers("/api/admin/**").hasRole("ADMIN")
+                        .requestMatchers("/api/csrf_token").permitAll()
+                        .requestMatchers("/api/auth/public/**").permitAll()
+                        .requestMatchers("/oauth2/**").permitAll()
+                        .anyRequest().authenticated())
                 .oauth2Login(oAuth2Login
                         -> oAuth2Login.successHandler(authorizedHandler));
         http.exceptionHandling(exception ->
