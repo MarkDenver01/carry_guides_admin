@@ -1,5 +1,6 @@
 package com.carry_guide.carry_guide_admin.jwt.security;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.cors.CorsConfiguration;
@@ -10,10 +11,13 @@ import java.util.List;
 
 @Configuration
 public class CorsConfig {
+    @Value("${front.end.url}")
+    private String frontEndUrl;
+
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration config = new CorsConfiguration();
-        config.setAllowedOrigins(List.of("http://localhost:3000")); // frontend URL
+        config.setAllowedOrigins(List.of(frontEndUrl)); // frontend URL
         config.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
         config.setAllowedHeaders(List.of("*"));
         config.setAllowCredentials(true); // required for cookies/session
