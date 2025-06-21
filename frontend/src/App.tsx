@@ -6,7 +6,7 @@ import './App.css';
 
 import Login from './components/Login';
 import Dashboard from './components/Dashboard';
-import type {JSX} from "react";
+import type { JSX } from "react";
 
 function App(): JSX.Element {
     return (
@@ -16,16 +16,9 @@ function App(): JSX.Element {
         >
             {/* Top-right floating logo */}
             <div className="absolute top-4 right-4 w-[140px] h-[140px] opacity-90">
-                <img
-                    src={logo}
-                    alt="Logo background"
-                    className="w-full h-full opacity-80"
-                />
-                <img
-                    src={main}
-                    alt="Main logo overlay"
-                    className="absolute top-1/2 left-1/2 w-[110px] h-[110px] transform -translate-x-1/2 -translate-y-1/2 opacity-90"
-                />
+                <img src={logo} alt="Logo background" className="w-full h-full opacity-80" />
+                <img src={main} alt="Main logo overlay"
+                     className="absolute top-1/2 left-1/2 w-[110px] h-[110px] transform -translate-x-1/2 -translate-y-1/2 opacity-90" />
             </div>
 
             {/* Page content based on route */}

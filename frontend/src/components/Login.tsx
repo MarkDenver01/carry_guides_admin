@@ -24,9 +24,9 @@ const Login: React.FC = () => {
             setError('');
 
             // Fetch CSRF token
-            await api.get('/api/csrf_token');
+            await api.get('/csrf_token');
 
-            const response = await api.post('/api/auth/public/user_login', {
+            const response = await api.post('/auth/public/user_login', {
                 email,
                 password,
             });

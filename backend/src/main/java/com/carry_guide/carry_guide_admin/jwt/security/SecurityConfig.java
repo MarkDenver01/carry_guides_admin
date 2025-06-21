@@ -81,15 +81,15 @@ public class SecurityConfig {
     @Bean
     SecurityFilterChain defaultSecurityFilterChain(HttpSecurity http) throws Exception {
         http.csrf(csrf ->
-                csrf.ignoringRequestMatchers("/api/auth/public/user_login")
+                csrf.ignoringRequestMatchers("/auth/public/user_login")
                 .csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse()));
         http.cors(cors -> corsConfig.corsConfigurationSource());
         http.authorizeHttpRequests((requests)
         -> requests
                         .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
-                        .requestMatchers("/api/admin/**").hasRole("ADMIN")
-                        .requestMatchers("/api/csrf_token").permitAll()
-                        .requestMatchers("/api/auth/public/**").permitAll()
+                        .requestMatchers("/admin/**").hasRole("ADMIN")
+                        .requestMatchers("/csrf_token").permitAll()
+                        .requestMatchers("/auth/public/**").permitAll()
                         .requestMatchers("/oauth2/**").permitAll()
                         .anyRequest().authenticated())
                 .oauth2Login(oAuth2Login
