@@ -2,6 +2,7 @@ import React, { useState, type FormEvent } from 'react';
 import { useNavigate } from 'react-router-dom';
 import ReCAPTCHA from 'react-google-recaptcha';
 import api from '../libs/api';
+import {useAuth} from "../context/AuthContext.tsx";
 
 const Login: React.FC = () => {
     const [email, setEmail] = useState<string>('');
@@ -10,6 +11,7 @@ const Login: React.FC = () => {
     const [loading, setLoading] = useState<boolean>(false);
     const [error, setError] = useState<string>('');
     const navigate = useNavigate();
+    const { login } = useAuth();
 
     const handleLogin = async (e: FormEvent) => {
         e.preventDefault();
@@ -31,8 +33,15 @@ const Login: React.FC = () => {
                 password,
             });
 
+            const { jwtToken, roles } = response.data;
+
+            if (roles[0] !== 'ROLE_ADMIN') {
+                setError("Access denied.")
+                return;
+            }
+
             console.log('Login success:', response.data);
-            // TODO: store auth token, etc.
+            login(jwtToken, roles[0]);
             navigate('/dashboard');
         } catch (err) {
             console.error(err);

@@ -6,6 +6,7 @@ import './App.css';
 
 import Login from './components/Login';
 import Dashboard from './components/Dashboard';
+import ProtectedRoute from "./components/ProtectedRoute.tsx";
 import type { JSX } from "react";
 
 function App(): JSX.Element {
@@ -25,7 +26,12 @@ function App(): JSX.Element {
             <div className="z-10">
                 <Routes>
                     <Route path="/" element={<Login />} />
-                    <Route path="/dashboard" element={<Dashboard />} />
+                    <Route path="/dashboard"
+                           element={
+                               <ProtectedRoute>
+                                   <Dashboard />
+                               </ProtectedRoute>
+                           } />
                 </Routes>
             </div>
         </div>
