@@ -13,22 +13,22 @@
 #ENTRYPOINT ["./wait-for-it.sh", "db:3306", "--", "java", "-jar", "target/carry_guide_admin-0.0.1-SNAPSHOT.jar"]
 # backend/Dockerfile
 # Use OpenJDK base image
+# backend/Dockerfile
 FROM eclipse-temurin:21-jdk-alpine
 
-# Set workdir
-WORKDIR /app
-
-# Install Maven and Netcat (for health checks or DB wait)
+# Install Maven & Netcat
 RUN apk update && apk add maven netcat-openbsd
 
-# Copy source code
+# Set working directory
+WORKDIR /app
+
+# Copy backend contents only (not the whole monorepo)
 COPY . .
 
-# Build Spring Boot app using Maven (skip tests for faster builds)
+# Move into correct path and build
+WORKDIR /app/backend
 RUN mvn clean package -DskipTests
 
-# Expose default Spring Boot port
 EXPOSE 8080
 
-# Run the built JAR (replace name with your actual JAR name)
 ENTRYPOINT ["java", "-jar", "target/carry_guide_admin-0.0.1-SNAPSHOT.jar"]
