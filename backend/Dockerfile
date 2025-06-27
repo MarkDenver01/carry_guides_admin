@@ -16,19 +16,16 @@
 # backend/Dockerfile
 FROM eclipse-temurin:21-jdk-alpine
 
-# Install Maven & Netcat
 RUN apk update && apk add maven netcat-openbsd
 
-# Set working directory
 WORKDIR /app
 
-# Copy backend contents only (not the whole monorepo)
 COPY . .
 
-# Move into correct path and build
 WORKDIR /app/backend
 RUN mvn clean package -DskipTests
 
 EXPOSE 8080
 
 ENTRYPOINT ["java", "-jar", "target/carry_guide_admin-0.0.1-SNAPSHOT.jar"]
+
