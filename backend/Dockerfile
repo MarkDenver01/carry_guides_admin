@@ -12,23 +12,23 @@
 #EXPOSE 8080
 #ENTRYPOINT ["./wait-for-it.sh", "db:3306", "--", "java", "-jar", "target/carry_guide_admin-0.0.1-SNAPSHOT.jar"]
 # backend/Dockerfile
-FROM openjdk:21-jdk-slim
+# Use OpenJDK base image
+FROM eclipse-temurin:21-jdk-alpine
 
+# Set workdir
 WORKDIR /app
 
-# Install netcat and maven
-RUN apt-get update && apt-get install -y netcat-openbsd maven && rm -rf /var/lib/apt/lists/*
+# Install Maven and Netcat (for health checks or DB wait)
+RUN apk update && apk add maven netcat-openbsd
 
+# Copy source code
 COPY . .
 
-# If mvnw/wait-for-it.sh exist, make them executable
-RUN [ -f mvnw ] && chmod +x mvnw || echo "mvnw not found"
-RUN [ -f wait-for-it.sh ] && chmod +x wait-for-it.sh || echo "wait-for-it.sh not found"
+# Build Spring Boot app using Maven (skip tests for faster builds)
+RUN mvn clean package -DskipTests
 
-# Build app with fallback
-RUN ./mvnw clean package -DskipTests || mvn clean package -DskipTests
-
+# Expose default Spring Boot port
 EXPOSE 8080
 
-ENTRYPOINT ["./wait-for-it.sh", "db:3306", "--", "java", "-jar", "target/carry_guide_admin-0.0.1-SNAPSHOT.jar"]
-
+# Run the built JAR (replace name with your actual JAR name)
+ENTRYPOINT ["java", "-jar", "target/carry_guide_admin-0.0.1-SNAPSHOT.jar"]
