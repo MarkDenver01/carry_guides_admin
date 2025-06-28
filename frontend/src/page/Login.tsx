@@ -1,7 +1,8 @@
 import React, { useState, type FormEvent } from 'react';
+import { Button } from 'flowbite-react';
 import { useNavigate } from 'react-router-dom';
 import ReCAPTCHA from 'react-google-recaptcha';
-import api from '../libs/api';
+import api from '../libs/api.ts';
 import {useAuth} from "../context/AuthContext.tsx";
 
 const Login: React.FC = () => {
@@ -52,33 +53,22 @@ const Login: React.FC = () => {
     };
 
     return (
-        <div className="bg-white w-[95%] max-w-[400px] rounded-lg shadow-2xl p-8">
-            <h2 className="text-2xl text-center text-blue-800 font-bold mb-2">Admin Portal</h2>
-            <p className="text-center text-sm text-gray-600 mb-6">Enter your account</p>
-
-            <form onSubmit={handleLogin} className="space-y-4">
+        <div
+            className="w-full max-w-sm p-4 bg-white border border-gray-200 rounded-lg shadow-sm sm:p-6 md:p-8 dark:bg-gray-800 dark:border-gray-700">
+            <form className="space-y-6" onSubmit={handleLogin}>
+                <h5 className="text-xl font-medium text-gray-900 dark:text-white">ADMIN PORTAL</h5>
                 <div>
-                    <label className="block text-sm font-medium text-gray-700">Email address</label>
-                    <input
-                        type="email"
-                        className="mt-1 w-full px-4 py-2 border rounded shadow-sm focus:ring focus:ring-blue-300"
-                        placeholder="Enter your email"
-                        value={email}
-                        onChange={(e) => setEmail(e.target.value)}
-                        required
-                    />
+                    <label htmlFor="email" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Email Address</label>
+                    <input type="email" name="email" id="email"
+                           className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
+                           placeholder="Enter your email" value={email} onChange={(e) => setEmail(e.target.value)}
+                           required/>
                 </div>
-
                 <div>
-                    <label className="block text-sm font-medium text-gray-700">Password</label>
-                    <input
-                        type="password"
-                        className="mt-1 w-full px-4 py-2 border rounded shadow-sm focus:ring focus:ring-blue-300"
-                        placeholder="Enter your password"
-                        value={password}
-                        onChange={(e) => setPassword(e.target.value)}
-                        required
-                    />
+                    <label htmlFor="password" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Password</label>
+                    <input type="password" name="password" id="password" placeholder="••••••••"
+                           className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
+                           value={password} onChange={(e) => setPassword(e.target.value)} required/>
                 </div>
 
                 <div className="flex justify-center">
@@ -90,15 +80,15 @@ const Login: React.FC = () => {
 
                 {error && <p className="text-sm text-red-600 text-center">{error}</p>}
 
-                <button
-                    type="submit"
-                    disabled={loading}
-                    className="w-full bg-blue-600 hover:bg-blue-700 text-white py-2 rounded transition duration-300"
-                >
+                <Button type="submit"
+                        disabled={loading}
+                        className="w-full text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
                     {loading ? 'Logging in...' : 'Login'}
-                </button>
+                </Button>
             </form>
+
         </div>
+
     );
 };
 

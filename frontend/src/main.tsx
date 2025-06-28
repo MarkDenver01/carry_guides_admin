@@ -15,6 +15,7 @@
 //     </React.StrictMode>
 // );
 
+import { initThemeMode } from "flowbite-react";
 import ReactDOM from 'react-dom/client';
 import { BrowserRouter } from 'react-router-dom';
 import { AuthProvider } from "./context/AuthContext.tsx";
@@ -30,3 +31,5 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
         </BrowserRouter>
     </React.StrictMode>
 );
+
+initThemeMode();
