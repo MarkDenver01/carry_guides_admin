@@ -7,12 +7,6 @@ const iconMap: Record<string, React.ElementType> = {
     ShieldCheck,
 };
 
-export interface NotificationItem {
-    icon: keyof typeof iconMap;
-    color: string;
-    message: string;
-}
-
 export const useNotifications = () => {
     return notificationsJson.map((n) => ({
         ...n,

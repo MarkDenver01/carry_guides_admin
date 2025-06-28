@@ -2,8 +2,8 @@ import React, { useState, type FormEvent } from 'react';
 import { Button } from 'flowbite-react';
 import { useNavigate } from 'react-router-dom';
 import ReCAPTCHA from 'react-google-recaptcha';
-import api from '../libs/api.ts';
-import {useAuth} from "../context/AuthContext.tsx";
+import api from '../../libs/api.ts';
+import {useAuth} from "../../context/AuthContext.tsx";
 
 const Login: React.FC = () => {
     const [email, setEmail] = useState<string>('');

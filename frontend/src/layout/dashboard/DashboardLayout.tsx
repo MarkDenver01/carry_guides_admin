@@ -1,24 +1,24 @@
 import { Routes, Route, useLocation } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 
-import AppSidebar from '../components/Sidebar';
-import Topbar from '../components/Topbar';
+import AppSidebar from '../../components/Sidebar.tsx';
+import Topbar from '../../components/Topbar.tsx';
 
-import DashboardPage from '../page/Dashboard';
-import ProductsPage from '../page/Products';
-import ProductMonitoring from '../page/product/ProductMonitoring';
-import ProductRecommendation from '../page/product/ProductRecommendation';
+import DashboardPage from '../../page/dashboard/Dashboard.tsx';
+import ProductsPage from '../../page/product/Products.tsx';
+import ProductMonitoring from '../../page/product/sub/ProductMonitoring.tsx';
+import ProductRecommendation from '../../page/product/sub/ProductRecommendation.tsx';
 
-import AnalyticsPage from '../page/Analytics';
-import CustomerReport from '../page/analytics/CustomerReport';
-import SalesReport from '../page/analytics/SalesReport';
-import ProductReport from '../page/analytics/ProductReport';
+import AnalyticsPage from '../../page/analytics/Analytics.tsx';
+import CustomerReport from '../../page/analytics/sub/CustomerReport.tsx';
+import SalesReport from '../../page/analytics/sub/SalesReport.tsx';
+import ProductReport from '../../page/analytics/sub/ProductReport.tsx';
 
-import UsersPage from '../page/Users';
+import UsersPage from '../../page/customer/Users.tsx';
 
-import DeliveryPage from '../page/Delivery';
-import OrdersPage from '../page/delivery/Orders';
-import RidersPage from '../page/delivery/Riders';
+import DeliveryPage from '../../page/delivery/Delivery.tsx';
+import OrdersPage from '../../page/delivery/sub/Orders.tsx';
+import RidersPage from '../../page/delivery/sub/Riders.tsx';
 
 export default function DashboardLayout() {
     const [collapsed, setCollapsed] = useState(false);

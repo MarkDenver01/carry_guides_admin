@@ -5,9 +5,9 @@ import logo from './assets/logo.svg';
 import main from './assets/main_logo.svg';
 import './App.css';
 
-import Login from './page/Login';
+import Login from './page/login/Login.tsx';
 import ProtectedRoute from './components/ProtectedRoute';
-import DashboardLayout from './layout/DashboardLayout';
+import DashboardLayout from './layout/dashboard/DashboardLayout.tsx';
 import type { JSX } from 'react';
 
 function App(): JSX.Element {
