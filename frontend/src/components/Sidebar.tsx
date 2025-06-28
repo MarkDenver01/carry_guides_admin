@@ -1,7 +1,7 @@
 import { useNavigate, useLocation } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
-import { sidebarMenu } from "../data/sidebar_menu";
+import { sidebarMenu } from "../hooks/sidebar_menu.ts";
 import type { SidebarMenuItem } from "../types/sidebar";
 import logo from "../assets/logo.svg";
 import RotateIcon from "../components/sidebar/RotateIcon";

@@ -35,7 +35,7 @@ export default function DashboardLayout() {
     }, [location.pathname]);
 
     return (
-        <div className="flex h-screen bg-gray-100">
+        <div className="flex h-screen bg-gray-200">
             <AppSidebar collapsed={collapsed} setCollapsed={setCollapsed} />
             <div className={`flex-1 flex flex-col transition-all duration-300 ${collapsed ? 'ml-20' : 'ml-64'}`}>
                 <Topbar pageTitle={pageTitle} />

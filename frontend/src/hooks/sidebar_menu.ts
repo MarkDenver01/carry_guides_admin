@@ -9,7 +9,7 @@ import {
     Truck,
     UserCheck,
 } from "lucide-react";
-import type { SidebarMenuSection } from "../types/sidebar";
+import type { SidebarMenuSection } from "../types/sidebar.ts";
 
 export const sidebarMenu: SidebarMenuSection[] = [
     {
