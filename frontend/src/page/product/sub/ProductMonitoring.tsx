@@ -1,3 +1,10 @@
+import ProductMonitoringLayout from '../../../layout/product/ProductMonitoringLayout';
+
 export default function ProductMonitoring() {
-    return <div className="text-lg font-medium">Welcome to Product Monitoring Page!</div>;
+    return (
+        <div className="p-4">
+            {/* Header, nav, etc. */}
+            <ProductMonitoringLayout />
+        </div>
+    );
 }
