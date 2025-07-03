@@ -131,7 +131,7 @@ export default function ProductInventoryTable() {
             </div>
 
             <table className="min-w-full border border-gray-300 text-sm text-left text-gray-700">
-                <thead className="bg-gray-200 text-gray-800">
+                <thead className="bg-emerald-600 text-gray-100">
                 <tr>
                     <th className="p-3 border border-gray-300 font-medium">Product</th>
                     <th className="p-3 border border-gray-300 font-medium">Stocks</th>

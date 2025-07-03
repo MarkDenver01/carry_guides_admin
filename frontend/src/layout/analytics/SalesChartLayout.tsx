@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { ChevronDown } from "lucide-react";
 import {
     BarChart,
     Bar,
@@ -8,7 +9,7 @@ import {
     ResponsiveContainer,
     CartesianGrid,
 } from "recharts";
-import {Dropdown, DropdownItem} from "flowbite-react";
+import { Dropdown, DropdownItem } from "flowbite-react";
 
 const dummyData = {
     date: [
@@ -40,17 +41,26 @@ export default function SalesChartLayout() {
     const data = dummyData[filter];
 
     return (
-        <div className="p-6 rounded-2xl bg-green-100 shadow-inner">
+        <div className="p-6 rounded-2xl">
             {/* Header */}
             <div className="flex justify-between items-center mb-4">
-        <span className="bg-green-300 text-green-900 font-semibold px-4 py-1 rounded-full text-sm shadow-sm">
-          Sales Chart
-        </span>
-                <Dropdown label={filterLabel(filter)} dismissOnClick={true}>
+                <span className="bg-green-200 text-green-900 font-semibold text-sm px-4 py-1 rounded-full shadow-sm">
+                    Sales Chart
+                </span>
+                <Dropdown
+                    dismissOnClick={true}
+                    renderTrigger={() => (
+                        <button className="flex items-center gap-2 border border-green-500 bg-green-100 text-green-900 font-semibold text-sm px-4 py-1 rounded-full shadow-sm">
+                            {filterLabel(filter)}
+                            <ChevronDown className="w-4 h-4 text-black" />
+                        </button>
+                    )}
+                >
                     <DropdownItem onClick={() => setFilter("date")}>By Date</DropdownItem>
                     <DropdownItem onClick={() => setFilter("month")}>By Month</DropdownItem>
                     <DropdownItem onClick={() => setFilter("year")}>By Year</DropdownItem>
                 </Dropdown>
+
             </div>
 
             {/* Two Charts Side-by-Side */}

@@ -10,7 +10,7 @@ export default function CustomerReport() {
             {/* First Grid Section */}
             <div className="grid grid-cols-1 md:grid-cols-4 gap-4 items-start">
                 {/* TOTAL SALES */}
-                <div className="flex flex-col justify-between gap-4 py-6 px-4 bg-emerald-600 rounded-lg shadow hover:shadow-md transition">
+                <div className="flex flex-col justify-between gap-4 py-6 px-4 bg-emerald-600 rounded-xl shadow-lg hover:shadow-xl transition">
                     <div className="flex items-center gap-4">
                         <div className="p-4 bg-green-100 text-green-600 rounded-full">
                             <PhilippinePeso size={64} />
@@ -23,7 +23,7 @@ export default function CustomerReport() {
                 </div>
 
                 {/* CUSTOMERS */}
-                <div className="flex flex-col justify-between gap-4 py-6 px-4 bg-rose-600 rounded-lg shadow hover:shadow-md transition">
+                <div className="flex flex-col justify-between gap-4 py-6 px-4 bg-rose-600 rounded-xl shadow-lg hover:shadow-xl transition">
                     <div className="flex items-center gap-4">
                         <div className="p-4 bg-red-100 text-red-600 rounded-full">
                             <Users size={64} />
@@ -36,7 +36,7 @@ export default function CustomerReport() {
                 </div>
 
                 {/* ORDERS */}
-                <div className="flex flex-col justify-between gap-4 py-6 px-4 bg-amber-600 rounded-lg shadow hover:shadow-md transition">
+                <div className="flex flex-col justify-between gap-4 py-6 px-4 bg-amber-600 rounded-xl shadow-lg hover:shadow-xl transition">
                     <div className="flex items-center gap-4">
                         <div className="p-4 bg-orange-100 text-orange-600 rounded-full">
                             <ShoppingCart size={64} />
@@ -49,7 +49,7 @@ export default function CustomerReport() {
                 </div>
 
                 {/* TOP CUSTOMERS */}
-                <div className="flex flex-col gap-4 py-6 px-4 bg-blue-900 rounded-lg shadow hover:shadow-md transition">
+                <div className="flex flex-col gap-4 py-6 px-4 bg-blue-900 rounded-xl shadow-lg hover:shadow-xl transition">
                     <h1 className="text-xl font-semibold text-white">Top Customers</h1>
 
                     {/* Customer 1 */}
@@ -91,7 +91,7 @@ export default function CustomerReport() {
             <div className="border-t border-gray-300" />
 
             {/* Sales Chart Section */}
-            <div className="p-4">
+            <div className="p-4 bg-white rounded-xl shadow-md">
                 <SalesChartLayout />
             </div>
         </div>

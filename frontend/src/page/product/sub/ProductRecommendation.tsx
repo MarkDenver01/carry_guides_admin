@@ -100,8 +100,8 @@ export default function ProductRecommendationRule() {
                 </Button>
             </div>
 
-            <table className="w-full border border-gray-300 text-sm text-left text-gray-700">
-                <thead className="bg-gray-200">
+            <table className="w-full border border-gray-300 text-sm text-left text-gray-100">
+                <thead className="bg-emerald-600">
                 <tr>
                     <th className="p-3 border">Status</th>
                     <th className="p-3 border">Product</th>
