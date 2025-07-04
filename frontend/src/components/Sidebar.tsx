@@ -3,7 +3,8 @@ import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { sidebarMenu } from "../hooks/sidebar_menu.ts";
 import type { SidebarMenuItem } from "../types/sidebar";
-import logo from "../assets/logo.svg";
+//import logo from "../assets/logo.svg";
+import carry_admin_logo from "../assets/cary_admin_logo.svg";
 import RotateIcon from "../components/sidebar/RotateIcon";
 import SidebarDropdown from "../components/sidebar/SidebarDropdown";
 
@@ -58,7 +59,7 @@ export default function AppSidebar({ collapsed, setCollapsed }: Props) {
                 onClick={() => setCollapsed(!collapsed)}
             >
                 <div className="flex items-center gap-2">
-                    <img className="h-8 w-8" src={logo} alt="Logo" />
+                    <img className="h-8 w-8" src={carry_admin_logo} alt="Logo" />
                     {!collapsed && <span className="text-xl font-semibold">Wrap & Carry</span>}
                 </div>
             </div>
