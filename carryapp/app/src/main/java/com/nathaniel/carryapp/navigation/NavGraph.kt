@@ -4,6 +4,8 @@ import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
 import com.nathaniel.carryapp.presentation.ui.compose.dashboard.DashboardScreen
+import com.nathaniel.carryapp.presentation.ui.compose.dashboard.delivery.DeliveryScreen
+import com.nathaniel.carryapp.presentation.ui.compose.dashboard.pickup.PickupScreen
 import com.nathaniel.carryapp.presentation.ui.compose.initial.InitialScreen
 
 fun NavGraphBuilder.initialGraph(navController: NavController) {
@@ -15,5 +17,11 @@ fun NavGraphBuilder.initialGraph(navController: NavController) {
 fun NavGraphBuilder.dashboardGraph(navController: NavController) {
     composable(Routes.DASHBOARD) {
         DashboardScreen(navController = navController)
+    }
+    composable(Routes.DELIVERY) {
+        DeliveryScreen(navController = navController)
+    }
+    composable(Routes.PICKUP) {
+        PickupScreen(navController = navController)
     }
 }
