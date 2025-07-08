@@ -20,12 +20,13 @@ import com.nathaniel.carryapp.presentation.utils.responsiveSp
 
 @Composable
 fun ServiceOptionCard(
+    modifier: Modifier = Modifier,
     title: String,
     subtitle: String,
     iconRes: Int,
     onClick: () -> Unit
 ) {
-    val iconSize = responsiveDp(48f)
+    val iconSize = responsiveDp(78f)
     val titleSize = responsiveSp(16f)
     val subtitleSize = responsiveSp(13f)
     val cardShape = RoundedCornerShape(24.dp)
@@ -36,11 +37,10 @@ fun ServiceOptionCard(
         color = Color(0xFFE6FF00),
         tonalElevation = 0.dp,
         shadowElevation = 4.dp,
-        modifier = Modifier
-            .fillMaxWidth()
+        modifier = modifier
             .clickable(
                 interactionSource = interactionSource,
-                indication = null, // Let Material3 provide default ripple
+                indication = null,
                 onClick = onClick
             )
     ) {

@@ -1,27 +1,34 @@
 package com.nathaniel.carryapp.presentation.ui.compose.dashboard
 
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
-import androidx.compose.ui.*
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.input.nestedscroll.nestedScroll
+import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.nathaniel.carryapp.R
 import com.nathaniel.carryapp.presentation.ui.compose.dashboard.components.PromoBannerCarousel
 import com.nathaniel.carryapp.presentation.ui.compose.dashboard.service.ServiceOptionCard
+import com.nathaniel.carryapp.presentation.ui.compose.dashboard.sidemenu.DashboardDrawerContent
 import com.nathaniel.carryapp.presentation.ui.compose.navigation.BottomNavigationBar
+import com.nathaniel.carryapp.presentation.ui.compose.navigation.TopNavigationBar
 import com.nathaniel.carryapp.presentation.utils.responsiveDp
-import com.nathaniel.carryapp.presentation.utils.responsiveSp
+import kotlinx.coroutines.launch
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun DashboardScreen(
     navController: NavController,
@@ -30,11 +37,16 @@ fun DashboardScreen(
     val userName by viewModel.userName.collectAsState()
     val navigateTo by viewModel.navigateTo.collectAsState()
 
+    var isDrawerOpen by remember { mutableStateOf(false) }
+
     val outerPadding = responsiveDp(16f)
-    val iconSize = responsiveDp(36f)
     val bannerHeight = responsiveDp(180f)
-    val cardPadding = responsiveDp(16f)
     val sectionSpacing = responsiveDp(20f)
+    val topSpacing = responsiveDp(2f)
+    val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior()
+
+    val screenWidth = LocalConfiguration.current.screenWidthDp.dp
+    val drawerWidth = screenWidth * 0.5f
 
     LaunchedEffect(navigateTo) {
         navigateTo?.let { route ->
@@ -43,91 +55,108 @@ fun DashboardScreen(
         }
     }
 
-    Box(
+    Scaffold(
         modifier = Modifier
             .fillMaxSize()
-            .background(
-                Brush.verticalGradient(
-                    colors = listOf(Color(0xFF2E7D32), Color(0xFF4CAF50))
-                )
+            .nestedScroll(scrollBehavior.nestedScrollConnection),
+        topBar = {
+            TopNavigationBar(
+                navController = navController,
+                title = "Mabuhay, $userName",
+                showBackButton = true,
+                showMenuButton = true,
+                scrollBehavior = scrollBehavior,
+                onMenuClick = { isDrawerOpen = true }
             )
-            .systemBarsPadding()
-    ) {
-        Column(
+        },
+        bottomBar = {
+            BottomNavigationBar(navController = navController)
+        },
+        containerColor = Color.Transparent
+    ) { innerPadding ->
+
+        Box(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(bottom = WindowInsets.navigationBars.asPaddingValues().calculateBottomPadding() + responsiveDp(16f)), // Reserve space for bottom nav
-            horizontalAlignment = Alignment.CenterHorizontally
+                .padding(innerPadding)
         ) {
-            // Header
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(horizontal = outerPadding, vertical = responsiveDp(12f)),
-                verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.SpaceBetween
-            ) {
-                Icon(
-                    imageVector = Icons.Default.Menu,
-                    contentDescription = "Menu",
-                    tint = Color.White,
-                    modifier = Modifier.size(iconSize)
-                )
-
-                Text(
-                    text = "Mabuhay, $userName",
-                    color = Color.White,
-                    fontSize = responsiveSp(17f)
-                )
-
-                Image(
-                    painter = painterResource(id = R.drawable.logs),
-                    contentDescription = "Logo",
-                    modifier = Modifier.size(iconSize)
-                )
-            }
-
-            // Promo Banner
-            PromoBannerCarousel(
-                modifier = Modifier,
-                bannerHeight = bannerHeight
-            )
-            Spacer(modifier = Modifier.height(sectionSpacing))
-
-            // Service Section Container (Green Pill)
+            // Main content
             Column(
                 modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(horizontal = outerPadding)
+                    .fillMaxSize()
+                    .verticalScroll(rememberScrollState())
                     .background(
-                        color = Color(0xFF1B5E20),
-                        shape = RoundedCornerShape(responsiveDp(40f))
-                    )
-                    .padding(cardPadding),
+                        Brush.verticalGradient(
+                            colors = listOf(Color(0xFF2E7D32), Color(0xFF4CAF50))
+                        )
+                    ),
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                ServiceOptionCard(
-                    title = "Delivery",
-                    subtitle = "Groceries delivered at your doorsteps",
-                    iconRes = R.drawable.delivery_scooter,
-                    onClick = { viewModel.onDeliveryClick() }
+                Spacer(modifier = Modifier.height(topSpacing))
+
+                PromoBannerCarousel(
+                    modifier = Modifier.fillMaxWidth(),
+                    bannerHeight = bannerHeight
                 )
-                Spacer(modifier = Modifier.height(responsiveDp(16f)))
-                ServiceOptionCard(
-                    title = "In-store Pickup",
-                    subtitle = "Pick up at your favorite store",
-                    iconRes = R.drawable.cart_basket,
-                    onClick = { viewModel.onPickupClick() }
-                )
+
+                Spacer(modifier = Modifier.height(sectionSpacing))
+
+                Column(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(horizontal = outerPadding)
+                ) {
+                    ServiceOptionCard(
+                        modifier = Modifier.fillMaxWidth(),
+                        title = "Delivery",
+                        subtitle = "Groceries delivered at your doorsteps",
+                        iconRes = R.drawable.delivery_scooter,
+                        onClick = { viewModel.onDeliveryClick() }
+                    )
+
+                    Spacer(modifier = Modifier.height(responsiveDp(16f)))
+
+                    ServiceOptionCard(
+                        modifier = Modifier.fillMaxWidth(),
+                        title = "In-store Pickup",
+                        subtitle = "Pick up at your favorite store",
+                        iconRes = R.drawable.cart_basket,
+                        onClick = { viewModel.onPickupClick() }
+                    )
+                }
+
+                Spacer(modifier = Modifier.height(sectionSpacing))
             }
 
-            Spacer(modifier = Modifier.height(sectionSpacing))
-        }
+            // Overlay & Drawer
+            if (isDrawerOpen) {
+                // Semi-transparent backdrop
+                Box(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .background(Color.Black.copy(alpha = 0.4f))
+                        .clickable(
+                            indication = null,
+                            interactionSource = remember { MutableInteractionSource() }
+                        ) {
+                            isDrawerOpen = false
+                        }
+                )
 
-        // Bottom Navigation
-        BottomNavigationBar(
-            navController = navController,
-            modifier = Modifier.align(Alignment.BottomCenter)
-        )
+                // Drawer content
+                Box(
+                    modifier = Modifier
+                        .fillMaxHeight()
+                        .width(drawerWidth)
+                        .background(Color.White)
+                        .align(Alignment.CenterStart) // Slide in from left
+                ) {
+                    DashboardDrawerContent(
+                        viewModel = viewModel,
+                        onCloseDrawer = { isDrawerOpen = false }
+                    )
+                }
+            }
+        }
     }
 }

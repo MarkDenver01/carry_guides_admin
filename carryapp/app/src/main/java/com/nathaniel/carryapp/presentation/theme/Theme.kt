@@ -8,7 +8,12 @@ import androidx.compose.material3.dynamicDarkColorScheme
 import androidx.compose.material3.dynamicLightColorScheme
 import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.unit.dp
+import com.nathaniel.carryapp.presentation.utils.responsiveTextSize
+import com.nathaniel.carryapp.presentation.utils.screenHeightFractionWithLimits
+import com.nathaniel.carryapp.presentation.utils.screenWidthFractionWithLimits
 
 private val DarkColorScheme = darkColorScheme(
     primary = Purple80,
@@ -49,9 +54,25 @@ fun CarryappTheme(
         else -> LightColorScheme
     }
 
-    MaterialTheme(
-        colorScheme = colorScheme,
-        typography = Typography,
-        content = content
+    // Responsive sizes calculation
+    val responsiveSizes = ResponsiveSizes(
+        logoSize = screenHeightFractionWithLimits(0.45f, min = 180.dp, max = 320.dp),
+        buttonHeight = screenHeightFractionWithLimits(0.065f, min = 56.dp, max = 76.dp),
+        buttonWidth = screenWidthFractionWithLimits(0.45f, min = 140.dp, max = 220.dp),
+        titleFontSize = responsiveTextSize(base = 20f, scaleFactor = 0.035f),
+        buttonFontSize = responsiveTextSize(base = 13f, scaleFactor = 0.03f)
     )
+
+    CompositionLocalProvider(
+        LocalResponsiveSizes provides responsiveSizes,
+        LocalAppColors provides AppColors(), // Custom color set (optional but useful)
+        LocalAppSpacing provides AppSpacing(),
+        LocalAppTypography provides AppTypography()
+    ) {
+        MaterialTheme(
+            colorScheme = colorScheme,
+            typography = Typography,
+            content = content
+        )
+    }
 }

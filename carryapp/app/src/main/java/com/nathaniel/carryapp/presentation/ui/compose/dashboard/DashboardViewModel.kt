@@ -15,6 +15,9 @@ class DashboardViewModel @Inject constructor() : ViewModel() {
     private val _navigateTo = MutableStateFlow<String?>(null)
     val navigateTo: StateFlow<String?> = _navigateTo
 
+    private val _pushNotificationsEnabled = MutableStateFlow(true)
+    val pushNotificationsEnabled: StateFlow<Boolean> = _pushNotificationsEnabled
+
     fun onDeliveryClick() {
         _navigateTo.value = Routes.DELIVERY
     }
@@ -25,6 +28,19 @@ class DashboardViewModel @Inject constructor() : ViewModel() {
 
     fun resetNavigation() {
         _navigateTo.value = null
+    }
+
+    fun onSignOut() {
+        // trigger navigation or other effects
+    }
+
+    fun onTogglePushNotifications(enabled: Boolean) {
+        _pushNotificationsEnabled.value = enabled
+        // persist state to preferences if needed
+    }
+
+    fun onSelectPreferences() {
+        // logic if needed
     }
 
 }

@@ -17,6 +17,8 @@ import androidx.navigation.compose.rememberNavController
 import com.nathaniel.carryapp.navigation.Routes
 import com.nathaniel.carryapp.navigation.dashboardGraph
 import com.nathaniel.carryapp.navigation.initialGraph
+import com.nathaniel.carryapp.navigation.signInGraph
+import com.nathaniel.carryapp.navigation.signUpGraph
 import com.nathaniel.carryapp.presentation.theme.CarryappTheme
 import com.nathaniel.carryapp.presentation.ui.compose.dashboard.DashboardScreen
 import com.nathaniel.carryapp.presentation.ui.compose.initial.InitialScreen
@@ -36,6 +38,8 @@ class MainActivity : ComponentActivity() {
                     startDestination = Routes.INITIAL
                 ) {
                     initialGraph(navController)
+                    signInGraph(navController)
+                    signUpGraph(navController)
                     dashboardGraph(navController)
                 }
 

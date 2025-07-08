@@ -10,4 +10,6 @@ object Routes {
 
     const val DELIVERY = "delivery"
     const val PICKUP = "pickup"
+    const val SIGN_UP = "sign_up"
+    const val SIGN_IN = "sign_in"
 }

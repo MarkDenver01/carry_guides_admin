@@ -7,6 +7,8 @@ import com.nathaniel.carryapp.presentation.ui.compose.dashboard.DashboardScreen
 import com.nathaniel.carryapp.presentation.ui.compose.dashboard.delivery.DeliveryScreen
 import com.nathaniel.carryapp.presentation.ui.compose.dashboard.pickup.PickupScreen
 import com.nathaniel.carryapp.presentation.ui.compose.initial.InitialScreen
+import com.nathaniel.carryapp.presentation.ui.compose.signin.SignInScreen
+import com.nathaniel.carryapp.presentation.ui.compose.signup.SignUpScreen
 
 fun NavGraphBuilder.initialGraph(navController: NavController) {
     composable(Routes.INITIAL) {
@@ -23,5 +25,17 @@ fun NavGraphBuilder.dashboardGraph(navController: NavController) {
     }
     composable(Routes.PICKUP) {
         PickupScreen(navController = navController)
+    }
+}
+
+fun NavGraphBuilder.signUpGraph(navController: NavController) {
+    composable(Routes.SIGN_UP) {
+        SignUpScreen(navController = navController)
+    }
+}
+
+fun NavGraphBuilder.signInGraph(navController: NavController) {
+    composable(Routes.SIGN_IN) {
+        SignInScreen(navController = navController)
     }
 }
