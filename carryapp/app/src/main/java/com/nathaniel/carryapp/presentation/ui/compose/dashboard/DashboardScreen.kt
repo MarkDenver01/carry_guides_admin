@@ -43,11 +43,11 @@ fun DashboardScreen(
     val outerPadding = responsiveDp(16f)
     val bannerHeight = responsiveDp(180f)
     val sectionSpacing = responsiveDp(20f)
-    val topSpacing = responsiveDp(8f)
+    val topSpacing = responsiveDp(1f)
     val cardSpacing = responsiveDp(16f)
 
     val screenWidth = LocalConfiguration.current.screenWidthDp.dp
-    val drawerWidth = screenWidth * 0.5f
+    val drawerWidth = screenWidth * 0.7f
 
     LaunchedEffect(navigateTo) {
         navigateTo?.let { route ->
