@@ -7,6 +7,9 @@ import androidx.compose.foundation.interaction.HoverInteraction
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.interaction.PressInteraction
 import androidx.compose.foundation.interaction.collectIsPressedAsState
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -35,6 +38,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.shadow
@@ -46,6 +50,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.LayoutDirection
+import com.nathaniel.carryapp.domain.enum.ButtonVariants
 import com.nathaniel.carryapp.presentation.theme.LocalAppSpacing
 import com.nathaniel.carryapp.presentation.theme.LocalResponsiveSizes
 import kotlinx.coroutines.flow.collectLatest
@@ -258,3 +263,74 @@ fun DynamicButton(
         )
     }
 }
+
+@Composable
+fun IconButton(
+    onClick: () -> Unit,
+    modifier: Modifier = Modifier,
+    height: Dp = LocalResponsiveSizes.current.buttonHeight,
+    fontSize: TextUnit = LocalResponsiveSizes.current.buttonFontSize,
+    variant: ButtonVariants = ButtonVariants.Filled,
+    icon: ImageVector? = null,
+    content: String? = null,
+    backgroundColor: Color = Color(0xFF2E7D32), // default for Filled
+    outlinedBorderColor: Color = Color.White.copy(alpha = 0.4f),
+    contentColor: Color = Color.White
+) {
+    val interactionSource = remember { MutableInteractionSource() }
+    val isPressed by interactionSource.collectIsPressedAsState()
+
+    // Dynamic background based on variant
+    val containerColor by animateColorAsState(
+        when (variant) {
+            ButtonVariants.Filled -> if (isPressed) backgroundColor.darken() else backgroundColor
+            ButtonVariants.Outlined -> Color.Transparent
+            ButtonVariants.Tonal -> Color.White.copy(alpha = if (isPressed) 0.16f else 0.08f)
+        },
+        label = "ButtonColorAnimation"
+    )
+
+    val borderColor by animateColorAsState(
+        when (variant) {
+            ButtonVariants.Outlined -> if (isPressed) backgroundColor else outlinedBorderColor
+            else -> Color.Transparent
+        },
+        label = "BorderColorAnimation"
+    )
+
+    Button(
+        onClick = onClick,
+        modifier = modifier.height(height),
+        shape = RoundedCornerShape(12.dp),
+        colors = ButtonDefaults.buttonColors(
+            containerColor = containerColor,
+            contentColor = contentColor
+        ),
+        border = if (variant == ButtonVariants.Outlined) BorderStroke(1.5.dp, borderColor) else null,
+        interactionSource = interactionSource,
+        contentPadding = PaddingValues(horizontal = 12.dp, vertical = 4.dp)
+    ) {
+        Row(
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.spacedBy(6.dp)
+        ) {
+            if (icon != null) {
+                Icon(
+                    imageVector = icon,
+                    contentDescription = null,
+                    tint = contentColor,
+                    modifier = Modifier.size(fontSize.value.dp + 4.dp)
+                )
+            }
+
+            if (!content.isNullOrEmpty()) {
+                Text(
+                    text = content,
+                    fontSize = fontSize,
+                    color = contentColor
+                )
+            }
+        }
+    }
+}
+

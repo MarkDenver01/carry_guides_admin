@@ -3,6 +3,7 @@ package com.nathaniel.carryapp.navigation
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
+import com.nathaniel.carryapp.presentation.ui.compose.account.display_profile.DisplayProfileScreen
 import com.nathaniel.carryapp.presentation.ui.compose.dashboard.DashboardScreen
 import com.nathaniel.carryapp.presentation.ui.compose.dashboard.delivery.DeliveryScreen
 import com.nathaniel.carryapp.presentation.ui.compose.dashboard.pickup.PickupScreen
@@ -37,5 +38,11 @@ fun NavGraphBuilder.signUpGraph(navController: NavController) {
 fun NavGraphBuilder.signInGraph(navController: NavController) {
     composable(Routes.SIGN_IN) {
         SignInScreen(navController = navController)
+    }
+}
+
+fun NavGraphBuilder.displayUserProfileGraph(navController: NavController) {
+    composable(Routes.DISPLAY_PROFILE) {
+        DisplayProfileScreen(navController = navController)
     }
 }

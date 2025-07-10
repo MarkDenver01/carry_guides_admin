@@ -26,6 +26,10 @@ class DashboardViewModel @Inject constructor() : ViewModel() {
         _navigateTo.value = Routes.PICKUP
     }
 
+    fun onDisplayProfile() {
+        _navigateTo.value = Routes.DISPLAY_PROFILE
+    }
+
     fun resetNavigation() {
         _navigateTo.value = null
     }

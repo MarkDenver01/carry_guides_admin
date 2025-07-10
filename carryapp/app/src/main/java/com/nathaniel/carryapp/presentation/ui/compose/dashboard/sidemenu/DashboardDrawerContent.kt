@@ -54,7 +54,13 @@ fun DashboardDrawerContent(
 
         Spacer(modifier = Modifier.height(sectionSpacing))
 
-        DrawerItem("My Account", Icons.Default.Person, textSize = textSize)
+        DrawerItem(
+            "My Account",
+            Icons.Default.Person,
+            textSize = textSize,
+            onClick = {
+                viewModel.onDisplayProfile()
+            })
         Divider()
         DrawerItem("Change Password", Icons.Default.Lock, textSize = textSize)
         DrawerItem("Apply Membership", Icons.Default.Star, textSize = textSize)

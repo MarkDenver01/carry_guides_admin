@@ -12,4 +12,7 @@ object Routes {
     const val PICKUP = "pickup"
     const val SIGN_UP = "sign_up"
     const val SIGN_IN = "sign_in"
+
+    const val DISPLAY_PROFILE = "display_profile"
+    const val UPDATE_PROFILE = "update_profile"
 }
