@@ -17,9 +17,10 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.unit.dp
 import com.nathaniel.carryapp.R
 import com.nathaniel.carryapp.presentation.ui.compose.dashboard.DashboardViewModel
+import com.nathaniel.carryapp.presentation.utils.responsiveDp
+import com.nathaniel.carryapp.presentation.utils.responsiveSp
 
 @Composable
 fun DashboardDrawerContent(
@@ -29,42 +30,50 @@ fun DashboardDrawerContent(
     val pushNotificationsEnabled by viewModel.pushNotificationsEnabled.collectAsState()
     var showPreferences by remember { mutableStateOf(false) }
 
+    val padding = responsiveDp(16f)
+    val logoSize = responsiveDp(100f)
+    val iconSpacing = responsiveDp(12f)
+    val sectionSpacing = responsiveDp(24f)
+    val dividerSpacing = responsiveDp(8f)
+    val innerPaddingStart = responsiveDp(48f)
+    val textSize = responsiveSp(16f)
+
     Column(
         modifier = Modifier
             .fillMaxSize()
             .background(Color.White)
-            .padding(16.dp)
+            .padding(padding)
     ) {
         Image(
             painter = painterResource(id = R.drawable.logo_final),
             contentDescription = "Logo",
             modifier = Modifier
-                .size(100.dp)
+                .size(logoSize)
                 .align(Alignment.CenterHorizontally)
         )
 
-        Spacer(modifier = Modifier.height(24.dp))
+        Spacer(modifier = Modifier.height(sectionSpacing))
 
-        DrawerItem("My Account", Icons.Default.Person)
+        DrawerItem("My Account", Icons.Default.Person, textSize = textSize)
         Divider()
-        DrawerItem("Change Password", Icons.Default.Lock)
-        DrawerItem("Apply Membership", Icons.Default.Star)
-        DrawerItem("Address Book", Icons.Default.LocationOn)
-        DrawerItem("My Voucher", Icons.Default.Star)
-        DrawerItem("My Suki Points", Icons.Default.ThumbUp)
+        DrawerItem("Change Password", Icons.Default.Lock, textSize = textSize)
+        DrawerItem("Apply Membership", Icons.Default.Star, textSize = textSize)
+        DrawerItem("Address Book", Icons.Default.LocationOn, textSize = textSize)
+        DrawerItem("My Voucher", Icons.Default.Star, textSize = textSize)
+        DrawerItem("My Suki Points", Icons.Default.ThumbUp, textSize = textSize)
 
-        Divider(modifier = Modifier.padding(vertical = 8.dp))
+        Divider(modifier = Modifier.padding(vertical = dividerSpacing))
 
         Row(
             modifier = Modifier
                 .fillMaxWidth()
                 .clickable { showPreferences = !showPreferences }
-                .padding(vertical = 8.dp),
+                .padding(vertical = dividerSpacing),
             verticalAlignment = Alignment.CenterVertically
         ) {
             Icon(Icons.Default.Settings, contentDescription = null)
-            Spacer(modifier = Modifier.width(12.dp))
-            Text("Preferences", style = MaterialTheme.typography.bodyLarge)
+            Spacer(modifier = Modifier.width(iconSpacing))
+            Text("Preferences", fontSize = textSize, style = MaterialTheme.typography.bodyLarge)
             Spacer(modifier = Modifier.weight(1f))
             Icon(
                 imageVector = if (showPreferences) Icons.Default.KeyboardArrowDown else Icons.Default.KeyboardArrowUp,
@@ -73,19 +82,18 @@ fun DashboardDrawerContent(
         }
 
         if (showPreferences) {
-            DrawerItem("Support & Feedbacks", Icons.Default.ThumbUp)
+            DrawerItem("Support & Feedbacks", Icons.Default.ThumbUp, textSize = textSize)
+
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(start = 48.dp, top = 8.dp),
+                    .padding(start = innerPaddingStart, top = dividerSpacing),
                 verticalAlignment = Alignment.CenterVertically
             ) {
-                Text("Push Notifications", modifier = Modifier.weight(1f))
+                Text("Push Notifications", modifier = Modifier.weight(1f), fontSize = textSize)
                 Switch(
                     checked = pushNotificationsEnabled,
-                    onCheckedChange = {
-                        viewModel.onTogglePushNotifications(it)
-                    }
+                    onCheckedChange = { viewModel.onTogglePushNotifications(it) }
                 )
             }
         }
@@ -101,7 +109,8 @@ fun DashboardDrawerContent(
                 onCloseDrawer()
             },
             iconTint = Color.Red,
-            textColor = Color.Red
+            textColor = Color.Red,
+            textSize = textSize
         )
     }
 }

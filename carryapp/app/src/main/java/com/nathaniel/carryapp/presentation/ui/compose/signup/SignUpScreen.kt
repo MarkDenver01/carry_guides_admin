@@ -15,12 +15,14 @@ import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.nathaniel.carryapp.R
 import com.nathaniel.carryapp.domain.request.SignUpRequest
 import com.nathaniel.carryapp.navigation.Routes
 import com.nathaniel.carryapp.presentation.theme.LocalResponsiveSizes
+import com.nathaniel.carryapp.presentation.theme.LocalAppSpacing
 import com.nathaniel.carryapp.presentation.ui.compose.navigation.TopNavigationBar
 import com.nathaniel.carryapp.presentation.utils.AuthSocialButton
 import com.nathaniel.carryapp.presentation.utils.AuthTextField
@@ -42,6 +44,7 @@ fun SignUpScreen(
     }
 
     val sizes = LocalResponsiveSizes.current
+    val spacing = LocalAppSpacing.current
 
     var userName by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
@@ -53,12 +56,7 @@ fun SignUpScreen(
 
     Scaffold(
         modifier = Modifier
-            .nestedScroll(scrollBehavior.nestedScrollConnection)
-            .background(
-                Brush.verticalGradient(
-                    listOf(Color(0xFF2E7D32), Color(0xFF4CAF50))
-                )
-            ),
+            .nestedScroll(scrollBehavior.nestedScrollConnection),
         topBar = {
             TopNavigationBar(
                 navController = navController,
@@ -70,50 +68,63 @@ fun SignUpScreen(
         },
         containerColor = Color.Transparent
     ) { innerPadding ->
-        Column(
-            modifier = Modifier
-                .padding(innerPadding)
-                .fillMaxSize()
-                .verticalScroll(rememberScrollState())
-                .padding(horizontal = 24.dp, vertical = 32.dp),
-            verticalArrangement = Arrangement.SpaceBetween
-        ) {
-            Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                Spacer(modifier = Modifier.height(8.dp))
 
+        Box(
+            modifier = Modifier
+                .fillMaxSize()
+                .background(
+                    Brush.verticalGradient(
+                        listOf(Color(0xFF2E7D32), Color(0xFF4CAF50))
+                    )
+                )
+                .padding(innerPadding)
+        ) {
+            // SCROLLABLE COLUMN
+            Column(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .verticalScroll(rememberScrollState())
+                    .padding(horizontal = spacing.lg, vertical = spacing.xl)
+            ) {
+                // INPUT FIELDS
                 AuthTextField(
                     value = userName,
                     onValueChange = { userName = it },
                     placeholder = "Full name",
-                    leadingIcon = Icons.Default.Person
+                    leadingIcon = Icons.Default.Person,
+                    fontSize = sizes.buttonFontSize
                 )
                 AuthTextField(
                     value = password,
                     onValueChange = { password = it },
                     placeholder = "Password",
                     isPassword = true,
-                    leadingIcon = Icons.Default.Lock
+                    leadingIcon = Icons.Default.Lock,
+                    fontSize = sizes.buttonFontSize
                 )
                 AuthTextField(
                     value = address,
                     onValueChange = { address = it },
                     placeholder = "Address",
-                    leadingIcon = Icons.Default.Home
+                    leadingIcon = Icons.Default.Home,
+                    fontSize = sizes.buttonFontSize
                 )
                 AuthTextField(
                     value = phone,
                     onValueChange = { phone = it },
                     placeholder = "Phone Number",
-                    leadingIcon = Icons.Default.Phone
+                    leadingIcon = Icons.Default.Phone,
+                    fontSize = sizes.buttonFontSize
                 )
                 AuthTextField(
                     value = mailAddress,
                     onValueChange = { mailAddress = it },
                     placeholder = "E-mail",
-                    leadingIcon = Icons.Default.Email
+                    leadingIcon = Icons.Default.Email,
+                    fontSize = sizes.buttonFontSize
                 )
 
-                Spacer(modifier = Modifier.height(16.dp))
+                Spacer(modifier = Modifier.height(spacing.md))
 
                 DynamicButton(
                     onClick = {
@@ -127,15 +138,15 @@ fun SignUpScreen(
                     content = "Sign up"
                 )
 
-                Spacer(modifier = Modifier.height(8.dp))
+                Spacer(modifier = Modifier.height(spacing.sm))
 
                 Text(
                     text = "By signing up you agree to the Terms of Service",
-                    fontSize = sizes.buttonFontSize,
+                    fontSize = 13.sp,
                     color = Color.White
                 )
 
-                Spacer(modifier = Modifier.height(16.dp))
+                Spacer(modifier = Modifier.height(spacing.md))
 
                 Row(
                     modifier = Modifier.fillMaxWidth(),
@@ -145,13 +156,13 @@ fun SignUpScreen(
                     Text(
                         " or ",
                         color = Color.White,
-                        fontSize = sizes.buttonFontSize,
-                        modifier = Modifier.padding(horizontal = 8.dp)
+                        fontSize = 13.sp,
+                        modifier = Modifier.padding(horizontal = spacing.sm)
                     )
                     Divider(modifier = Modifier.weight(1f), color = Color.White)
                 }
 
-                Spacer(modifier = Modifier.height(12.dp))
+                Spacer(modifier = Modifier.height(spacing.md))
 
                 Row(
                     modifier = Modifier.fillMaxWidth(),
@@ -160,45 +171,52 @@ fun SignUpScreen(
                     AuthSocialButton(
                         icon = R.drawable.ic_google,
                         label = "Google",
-                        onClick = { viewModel.onAuthGoogleSignUp() }
+                        onClick = { viewModel.onAuthGoogleSignUp() },
+                        40.dp,
+                        150.dp,
+                        15.sp
                     )
+
                     AuthSocialButton(
                         icon = R.drawable.ic_facebook,
                         label = "Facebook",
-                        onClick = { viewModel.onAuthFacebookSignUp() }
+                        onClick = { viewModel.onAuthFacebookSignUp() },
+                        40.dp,
+                        150.dp,
+                        15.sp
                     )
                 }
 
-                Spacer(modifier = Modifier.height(12.dp))
+                Spacer(modifier = Modifier.height(spacing.md))
 
                 DynamicButton(
-                    onClick = {
-                        viewModel.onContinueAsGuest()
-                    },
-                    height = sizes.buttonHeight * 0.75f,
-                    fontSize = sizes.buttonFontSize,
+                    onClick = { viewModel.onContinueAsGuest() },
+                    height = sizes.buttonHeight * 0.65f,
+                    fontSize = 14.sp,
                     backgroundColor = Color(0xFF0B6623),
                     content = "Continue as Guest"
                 )
-            }
 
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(vertical = 12.dp),
-                horizontalArrangement = Arrangement.Center
-            ) {
-                Text(
-                    "Already have an account? ",
-                    color = Color.White,
-                    fontSize = sizes.buttonFontSize
-                )
-                Text(
-                    text = "Sign in",
-                    color = Color.Blue,
-                    fontSize = sizes.buttonFontSize,
-                    modifier = Modifier.clickable { navController.navigate(Routes.SIGN_IN) }
-                )
+                Spacer(modifier = Modifier.height(spacing.lg))
+
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(vertical = spacing.lg),
+                    horizontalArrangement = Arrangement.Center
+                ) {
+                    Text(
+                        "Already have an account? ",
+                        color = Color.White,
+                        fontSize = sizes.buttonFontSize
+                    )
+                    Text(
+                        text = "Sign in",
+                        color = Color.Blue,
+                        fontSize = sizes.buttonFontSize,
+                        modifier = Modifier.clickable { navController.navigate(Routes.SIGN_IN) }
+                    )
+                }
             }
         }
     }

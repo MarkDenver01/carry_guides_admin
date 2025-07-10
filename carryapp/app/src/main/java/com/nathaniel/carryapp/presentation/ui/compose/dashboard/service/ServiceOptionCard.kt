@@ -27,16 +27,18 @@ fun ServiceOptionCard(
     onClick: () -> Unit
 ) {
     val iconSize = responsiveDp(78f)
-    val titleSize = responsiveSp(16f)
-    val subtitleSize = responsiveSp(13f)
-    val cardShape = RoundedCornerShape(24.dp)
+    val padding = responsiveDp(16f)
+    val cardCornerRadius = responsiveDp(24f)
+    val titleFontSize = responsiveSp(16f)
+    val subtitleFontSize = responsiveSp(13f)
+
     val interactionSource = remember { MutableInteractionSource() }
 
     Surface(
-        shape = cardShape,
+        shape = RoundedCornerShape(cardCornerRadius),
         color = Color(0xFFE6FF00),
         tonalElevation = 0.dp,
-        shadowElevation = 4.dp,
+        shadowElevation = responsiveDp(4f),
         modifier = modifier
             .clickable(
                 interactionSource = interactionSource,
@@ -45,7 +47,9 @@ fun ServiceOptionCard(
             )
     ) {
         Row(
-            modifier = Modifier.padding(responsiveDp(16f)),
+            modifier = Modifier
+                .padding(padding)
+                .fillMaxWidth(),
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
@@ -54,12 +58,12 @@ fun ServiceOptionCard(
                     text = title,
                     color = Color(0xFF2E7D32),
                     fontWeight = FontWeight.Bold,
-                    fontSize = titleSize
+                    fontSize = titleFontSize
                 )
                 Text(
                     text = subtitle,
                     color = Color(0xFF2E7D32),
-                    fontSize = subtitleSize
+                    fontSize = subtitleFontSize
                 )
             }
 

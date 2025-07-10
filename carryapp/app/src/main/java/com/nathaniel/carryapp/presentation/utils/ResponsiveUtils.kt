@@ -51,51 +51,59 @@ import com.nathaniel.carryapp.presentation.theme.LocalResponsiveSizes
 import kotlinx.coroutines.flow.collectLatest
 
 @Composable
-fun screenHeightFractionWithLimits(
+fun responsiveHeightFraction(
     fraction: Float,
     min: Dp = 100.dp,
     max: Dp = 300.dp
 ): Dp {
-    val config = LocalConfiguration.current
-    val calculated = (config.screenHeightDp * fraction).dp
-    return maxOf(min, minOf(calculated, max))
+    val screenHeight = LocalConfiguration.current.screenHeightDp
+    val calculated = (screenHeight * fraction).dp
+    return calculated.coerceIn(min, max)
 }
 
-
 @Composable
-fun screenWidthFractionWithLimits(
+fun responsiveWidthFraction(
     fraction: Float,
     min: Dp = 80.dp,
     max: Dp = 300.dp
 ): Dp {
-    val config = LocalConfiguration.current
-    val calculated = (config.screenWidthDp * fraction).dp
-    return maxOf(min, minOf(calculated, max))
+    val screenWidth = LocalConfiguration.current.screenWidthDp
+    val calculated = (screenWidth * fraction).dp
+    return calculated.coerceIn(min, max)
 }
 
 @Composable
-fun responsiveTextSize(
+fun responsiveTextSp(
     base: Float = 16f,
-    scaleFactor: Float = 0.05f
+    scaleFactor: Float = 0.05f,
+    min: Float = 12f,
+    max: Float = 28f
 ): TextUnit {
-    val config = LocalConfiguration.current
-    val scaled = base + (config.screenWidthDp * scaleFactor)
-    return scaled.sp
+    val screenWidth = LocalConfiguration.current.screenWidthDp
+    val calculated = (base + (screenWidth * scaleFactor)).coerceIn(min, max)
+    return calculated.sp
 }
 
 @Composable
-fun responsiveDp(base: Float): Dp {
+fun responsiveDp(
+    base: Float,
+    designWidthDp: Float = 360f
+): Dp {
     val screenWidth = LocalConfiguration.current.screenWidthDp
-    val factor = screenWidth / 360f // base on 360dp screen
-    return (base * factor).dp
+    val scale = screenWidth / designWidthDp
+    return (base * scale).dp
 }
 
 @Composable
-fun responsiveSp(base: Float): TextUnit {
+fun responsiveSp(
+    base: Float,
+    designWidthDp: Float = 360f
+): TextUnit {
     val screenWidth = LocalConfiguration.current.screenWidthDp
-    val factor = screenWidth / 360f
-    return (base * factor).sp
+    val scale = screenWidth / designWidthDp
+    return (base * scale).sp
 }
+
 
 @Composable
 fun AuthTextField(
@@ -103,7 +111,8 @@ fun AuthTextField(
     onValueChange: (String) -> Unit,
     placeholder: String,
     isPassword: Boolean = false,
-    leadingIcon: ImageVector
+    leadingIcon: ImageVector,
+    fontSize: TextUnit = LocalResponsiveSizes.current.buttonFontSize, // dynamic default
 ) {
     OutlinedTextField(
         value = value,
@@ -112,7 +121,7 @@ fun AuthTextField(
             Text(
                 text = placeholder,
                 color = Color.LightGray,
-                fontSize = 18.sp
+                fontSize = fontSize
             )
         },
         leadingIcon = {
@@ -141,7 +150,10 @@ fun AuthTextField(
             unfocusedContainerColor = Color.White.copy(alpha = 0.05f)
         ),
         visualTransformation = if (isPassword) PasswordVisualTransformation() else VisualTransformation.None,
-        textStyle = LocalTextStyle.current.copy(color = Color.White)
+        textStyle = LocalTextStyle.current.copy(
+            color = Color.White,
+            fontSize = fontSize
+        )
     )
 }
 
@@ -150,9 +162,9 @@ fun AuthSocialButton(
     icon: Int,
     label: String,
     onClick: () -> Unit,
-    height: Dp = 38.dp,
-    width: Dp = 140.dp,
-    fontSize: TextUnit = 15.sp,
+    height: Dp = LocalResponsiveSizes.current.buttonHeight,
+    width: Dp = LocalResponsiveSizes.current.buttonWidth,
+    fontSize: TextUnit = LocalResponsiveSizes.current.buttonFontSize,
     backgroundColor: Color = Color.White.copy(alpha = 0.08f),
     pressedBackgroundColor: Color = Color(0xFF2E7D32)  // Dark green on press
 ) {
@@ -161,8 +173,7 @@ fun AuthSocialButton(
 
     LaunchedEffect(interactionSource) {
         interactionSource.interactions.collectLatest { interaction ->
-            isPressed =
-                interaction is PressInteraction.Press || interaction is HoverInteraction.Enter
+            isPressed = interaction is PressInteraction.Press || interaction is HoverInteraction.Enter
         }
     }
 
@@ -186,13 +197,13 @@ fun AuthSocialButton(
             .height(height),
         colors = ButtonDefaults.outlinedButtonColors(
             containerColor = animatedBackgroundColor,
-            contentColor = Color.White // Text stays white on all states
+            contentColor = Color.White
         )
     ) {
         Icon(
             painter = painterResource(id = icon),
             contentDescription = label,
-            tint = Color.Unspecified,  // Keep original icon colors
+            tint = Color.Unspecified,
             modifier = Modifier
                 .size(20.dp)
                 .padding(end = 4.dp)
@@ -210,8 +221,8 @@ fun AuthSocialButton(
 fun DynamicButton(
     onClick: () -> Unit,
     modifier: Modifier = Modifier.fillMaxWidth(),
-    height: Dp = 48.dp,
-    fontSize: TextUnit = 16.sp,
+    height: Dp = LocalResponsiveSizes.current.buttonHeight,
+    fontSize: TextUnit = LocalResponsiveSizes.current.buttonFontSize,
     backgroundColor: Color = Color.White.copy(alpha = 0.08f),
     pressedBackgroundColor: Color = Color(0xFF2E7D32),
     content: String
@@ -247,9 +258,3 @@ fun DynamicButton(
         )
     }
 }
-
-
-
-
-
-

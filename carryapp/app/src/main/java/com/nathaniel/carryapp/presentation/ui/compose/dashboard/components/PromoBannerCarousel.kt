@@ -16,6 +16,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.nathaniel.carryapp.R
+import com.nathaniel.carryapp.presentation.utils.responsiveDp
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
@@ -44,9 +45,12 @@ fun PromoBannerCarousel(
         }
     }
 
+    val dotSize = responsiveDp(8f)
+    val dotSpacing = responsiveDp(4f)
+    val bottomPadding = responsiveDp(8f)
+
     Column(
-        modifier = modifier
-            .fillMaxWidth(),
+        modifier = modifier.fillMaxWidth(),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         HorizontalPager(
@@ -63,14 +67,14 @@ fun PromoBannerCarousel(
             )
         }
 
-        Spacer(modifier = Modifier.height(8.dp))
+        Spacer(modifier = Modifier.height(dotSpacing * 2))
 
         Row(
             horizontalArrangement = Arrangement.Center,
             verticalAlignment = Alignment.CenterVertically,
             modifier = Modifier
                 .wrapContentHeight()
-                .padding(bottom = 8.dp)
+                .padding(bottom = bottomPadding)
         ) {
             repeat(images.size) { index ->
                 val color =
@@ -79,8 +83,8 @@ fun PromoBannerCarousel(
 
                 Box(
                     modifier = Modifier
-                        .padding(horizontal = 4.dp)
-                        .size(8.dp)
+                        .padding(horizontal = dotSpacing)
+                        .size(dotSize)
                         .background(color = color, shape = MaterialTheme.shapes.small)
                 )
             }

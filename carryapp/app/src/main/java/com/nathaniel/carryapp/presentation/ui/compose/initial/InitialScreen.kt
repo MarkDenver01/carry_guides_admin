@@ -19,6 +19,7 @@ import androidx.navigation.NavController
 import com.nathaniel.carryapp.R
 import com.nathaniel.carryapp.navigation.Routes
 import com.nathaniel.carryapp.presentation.theme.BgApp
+import com.nathaniel.carryapp.presentation.theme.LocalAppSpacing
 import com.nathaniel.carryapp.presentation.theme.LocalResponsiveSizes
 import com.nathaniel.carryapp.presentation.utils.DynamicButton
 import kotlinx.coroutines.delay
@@ -38,6 +39,7 @@ fun InitialScreen(
     }
 
     val sizes = LocalResponsiveSizes.current
+    val spacing = LocalAppSpacing.current
 
     Box(
         modifier = Modifier
@@ -51,7 +53,10 @@ fun InitialScreen(
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(horizontal = 24.dp, vertical = 32.dp)
+                .padding(
+                    horizontal = spacing.lg,
+                    vertical = spacing.xl
+                )
                 .verticalScroll(rememberScrollState()),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
@@ -64,7 +69,7 @@ fun InitialScreen(
                     fontSize = sizes.titleFontSize,
                     fontWeight = FontWeight.Bold,
                     color = Color.White,
-                    modifier = Modifier.padding(bottom = 16.dp)
+                    modifier = Modifier.padding(bottom = spacing.md)
                 )
 
                 Image(
@@ -72,11 +77,11 @@ fun InitialScreen(
                     contentDescription = "App Logo",
                     modifier = Modifier
                         .size(sizes.logoSize)
-                        .padding(bottom = 24.dp)
+                        .padding(bottom = spacing.lg)
                 )
             }
 
-            Spacer(modifier = Modifier.height(32.dp))
+            Spacer(modifier = Modifier.height(spacing.xl))
 
             // Animated button
             var pressed by remember { mutableStateOf(false) }

@@ -75,13 +75,14 @@ fun SignInScreen(
             verticalArrangement = Arrangement.SpaceBetween
         ) {
             Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                Spacer(modifier = Modifier.height(spacing.sm))
+                Spacer(modifier = Modifier.height(spacing.md))
 
                 AuthTextField(
                     value = mailAddress,
                     onValueChange = { mailAddress = it },
                     placeholder = "E-mail",
-                    leadingIcon = Icons.Default.Email
+                    leadingIcon = Icons.Default.Email,
+                    fontSize = sizes.buttonFontSize
                 )
 
                 AuthTextField(
@@ -89,10 +90,11 @@ fun SignInScreen(
                     onValueChange = { password = it },
                     placeholder = "Password",
                     isPassword = true,
-                    leadingIcon = Icons.Default.Lock
+                    leadingIcon = Icons.Default.Lock,
+                    fontSize = sizes.buttonFontSize
                 )
 
-                Spacer(modifier = Modifier.height(spacing.md))
+                Spacer(modifier = Modifier.height(spacing.lg))
 
                 DynamicButton(
                     onClick = {
@@ -104,13 +106,15 @@ fun SignInScreen(
                     content = "Sign in"
                 )
 
-                Spacer(modifier = Modifier.height(spacing.sm))
+                Spacer(modifier = Modifier.height(spacing.md))
 
                 Text(
                     text = "Forgot password?",
                     color = Color.Blue,
                     fontSize = sizes.buttonFontSize,
-                    modifier = Modifier.clickable { navController.navigate(Routes.SIGN_UP) }
+                    modifier = Modifier.clickable {
+                        navController.navigate(Routes.SIGN_UP)
+                    }
                 )
 
                 Spacer(modifier = Modifier.height(spacing.md))
@@ -131,7 +135,9 @@ fun SignInScreen(
                     text = "Sign up",
                     color = Color.Blue,
                     fontSize = sizes.buttonFontSize,
-                    modifier = Modifier.clickable { navController.navigate(Routes.SIGN_UP) }
+                    modifier = Modifier.clickable {
+                        navController.navigate(Routes.SIGN_UP)
+                    }
                 )
             }
         }

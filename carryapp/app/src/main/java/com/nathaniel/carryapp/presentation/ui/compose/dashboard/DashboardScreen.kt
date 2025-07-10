@@ -26,7 +26,6 @@ import com.nathaniel.carryapp.presentation.ui.compose.dashboard.sidemenu.Dashboa
 import com.nathaniel.carryapp.presentation.ui.compose.navigation.BottomNavigationBar
 import com.nathaniel.carryapp.presentation.ui.compose.navigation.TopNavigationBar
 import com.nathaniel.carryapp.presentation.utils.responsiveDp
-import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -39,11 +38,13 @@ fun DashboardScreen(
 
     var isDrawerOpen by remember { mutableStateOf(false) }
 
+    val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior()
+
     val outerPadding = responsiveDp(16f)
     val bannerHeight = responsiveDp(180f)
     val sectionSpacing = responsiveDp(20f)
-    val topSpacing = responsiveDp(2f)
-    val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior()
+    val topSpacing = responsiveDp(8f)
+    val cardSpacing = responsiveDp(16f)
 
     val screenWidth = LocalConfiguration.current.screenWidthDp.dp
     val drawerWidth = screenWidth * 0.5f
@@ -114,7 +115,7 @@ fun DashboardScreen(
                         onClick = { viewModel.onDeliveryClick() }
                     )
 
-                    Spacer(modifier = Modifier.height(responsiveDp(16f)))
+                    Spacer(modifier = Modifier.height(cardSpacing))
 
                     ServiceOptionCard(
                         modifier = Modifier.fillMaxWidth(),
@@ -128,9 +129,8 @@ fun DashboardScreen(
                 Spacer(modifier = Modifier.height(sectionSpacing))
             }
 
-            // Overlay & Drawer
+            // Drawer and overlay
             if (isDrawerOpen) {
-                // Semi-transparent backdrop
                 Box(
                     modifier = Modifier
                         .fillMaxSize()
@@ -143,13 +143,12 @@ fun DashboardScreen(
                         }
                 )
 
-                // Drawer content
                 Box(
                     modifier = Modifier
                         .fillMaxHeight()
                         .width(drawerWidth)
                         .background(Color.White)
-                        .align(Alignment.CenterStart) // Slide in from left
+                        .align(Alignment.CenterStart)
                 ) {
                     DashboardDrawerContent(
                         viewModel = viewModel,
