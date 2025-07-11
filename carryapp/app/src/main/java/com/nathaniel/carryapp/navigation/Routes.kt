@@ -15,4 +15,6 @@ object Routes {
 
     const val DISPLAY_PROFILE = "display_profile"
     const val UPDATE_PROFILE = "update_profile"
+
+    const val CHANGE_PASSWORD = "change_password"
 }

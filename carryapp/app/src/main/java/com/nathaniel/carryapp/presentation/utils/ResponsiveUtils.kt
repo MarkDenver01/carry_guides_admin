@@ -1,13 +1,16 @@
 package com.nathaniel.carryapp.presentation.utils
 
+import android.app.DatePickerDialog
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.HoverInteraction
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.interaction.PressInteraction
 import androidx.compose.foundation.interaction.collectIsPressedAsState
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -23,11 +26,16 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.unit.TextUnit
-import androidx.compose.foundation.shape.GenericShape
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.KeyboardArrowDown
+import androidx.compose.material.icons.filled.KeyboardArrowUp
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.DropdownMenu
+import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.LocalTextStyle
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.OutlinedTextField
@@ -41,19 +49,19 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.draw.shadow
-import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.Path
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
-import androidx.compose.ui.unit.LayoutDirection
+import com.nathaniel.carryapp.R
 import com.nathaniel.carryapp.domain.enum.ButtonVariants
-import com.nathaniel.carryapp.presentation.theme.LocalAppSpacing
 import com.nathaniel.carryapp.presentation.theme.LocalResponsiveSizes
 import kotlinx.coroutines.flow.collectLatest
+import java.text.SimpleDateFormat
+import java.util.Calendar
+import java.util.Locale
 
 @Composable
 fun responsiveHeightFraction(
@@ -117,8 +125,11 @@ fun AuthTextField(
     placeholder: String,
     isPassword: Boolean = false,
     leadingIcon: ImageVector,
-    fontSize: TextUnit = LocalResponsiveSizes.current.buttonFontSize, // dynamic default
+    fontSize: TextUnit = LocalResponsiveSizes.current.buttonFontSize,
 ) {
+    // Password visibility toggle state (only used if isPassword is true)
+    var passwordVisible by remember { mutableStateOf(false) }
+
     OutlinedTextField(
         value = value,
         onValueChange = onValueChange,
@@ -140,6 +151,19 @@ fun AuthTextField(
                     .padding(6.dp)
             )
         },
+        trailingIcon = {
+            if (isPassword) {
+                val visibilityIcon = if (passwordVisible) R.drawable.ic_visibility_show else R.drawable.ic_visibility_hide
+                val description = if (passwordVisible) "Hide password" else "Show password"
+                IconButton(onClick = { passwordVisible = !passwordVisible }) {
+                    Icon(
+                        painter = painterResource(id = visibilityIcon),
+                        contentDescription = description,
+                        tint = Color.White
+                    )
+                }
+            }
+        },
         singleLine = true,
         shape = RoundedCornerShape(50),
         modifier = Modifier
@@ -154,13 +178,14 @@ fun AuthTextField(
             focusedContainerColor = Color.White.copy(alpha = 0.1f),
             unfocusedContainerColor = Color.White.copy(alpha = 0.05f)
         ),
-        visualTransformation = if (isPassword) PasswordVisualTransformation() else VisualTransformation.None,
+        visualTransformation = if (isPassword && !passwordVisible) PasswordVisualTransformation() else VisualTransformation.None,
         textStyle = LocalTextStyle.current.copy(
             color = Color.White,
             fontSize = fontSize
         )
     )
 }
+
 
 @Composable
 fun AuthSocialButton(
@@ -178,7 +203,8 @@ fun AuthSocialButton(
 
     LaunchedEffect(interactionSource) {
         interactionSource.interactions.collectLatest { interaction ->
-            isPressed = interaction is PressInteraction.Press || interaction is HoverInteraction.Enter
+            isPressed =
+                interaction is PressInteraction.Press || interaction is HoverInteraction.Enter
         }
     }
 
@@ -306,7 +332,10 @@ fun IconButton(
             containerColor = containerColor,
             contentColor = contentColor
         ),
-        border = if (variant == ButtonVariants.Outlined) BorderStroke(1.5.dp, borderColor) else null,
+        border = if (variant == ButtonVariants.Outlined) BorderStroke(
+            1.5.dp,
+            borderColor
+        ) else null,
         interactionSource = interactionSource,
         contentPadding = PaddingValues(horizontal = 12.dp, vertical = 4.dp)
     ) {
@@ -333,4 +362,207 @@ fun IconButton(
         }
     }
 }
+
+@Composable
+fun DatePickerField(
+    date: String,
+    onDateSelected: (String) -> Unit,
+    placeholder: String,
+    leadingIcon: ImageVector,
+    fontSize: TextUnit = LocalResponsiveSizes.current.buttonFontSize,
+    modifier: Modifier = Modifier
+        .fillMaxWidth()
+        .padding(vertical = 6.dp),
+    containerColor: Color = Color.White.copy(alpha = 0.1f),
+    borderColor: Color = Color.White.copy(alpha = 0.3f),
+    textColor: Color = Color.White
+) {
+    var showDialog by remember { mutableStateOf(false) }
+
+    OutlinedTextField(
+        value = date,
+        onValueChange = {},
+        placeholder = {
+            Text(
+                text = placeholder,
+                color = Color.LightGray,
+                fontSize = fontSize
+            )
+        },
+        leadingIcon = {
+            Icon(
+                imageVector = leadingIcon,
+                contentDescription = placeholder,
+                tint = Color.White,
+                modifier = Modifier
+                    .clip(CircleShape)
+                    .background(Color.White.copy(alpha = 0.1f))
+                    .padding(6.dp)
+            )
+        },
+        singleLine = true,
+        shape = RoundedCornerShape(50),
+        modifier = modifier.clickable { showDialog = true },
+        enabled = false,
+        readOnly = true,
+        colors = OutlinedTextFieldDefaults.colors(
+            disabledBorderColor = borderColor,
+            disabledTextColor = textColor,
+            disabledPlaceholderColor = Color.LightGray,
+            disabledLeadingIconColor = Color.White,
+            disabledContainerColor = containerColor,
+            disabledTrailingIconColor = Color.White
+        ),
+        textStyle = LocalTextStyle.current.copy(
+            color = textColor,
+            fontSize = fontSize
+        )
+    )
+
+    if (showDialog) {
+        DatePickerDialogOnly(
+            onDateSelected = {
+                onDateSelected(it)
+                showDialog = false
+            },
+            onDismissRequest = {
+                showDialog = false
+            }
+        )
+    }
+}
+
+
+@Composable
+fun DatePickerDialogOnly(
+    onDateSelected: (String) -> Unit,
+    onDismissRequest: () -> Unit
+) {
+    val context = LocalContext.current
+    val calendar = Calendar.getInstance()
+
+    DatePickerDialog(
+        context,
+        { _, year, month, dayOfMonth ->
+            val selectedDate = Calendar.getInstance().apply {
+                set(Calendar.YEAR, year)
+                set(Calendar.MONTH, month)
+                set(Calendar.DAY_OF_MONTH, dayOfMonth)
+            }
+
+            val format = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
+            onDateSelected(format.format(selectedDate.time))
+        },
+        calendar.get(Calendar.YEAR),
+        calendar.get(Calendar.MONTH),
+        calendar.get(Calendar.DAY_OF_MONTH)
+    ).apply {
+        setOnCancelListener { onDismissRequest() }
+    }.show()
+}
+
+@Composable
+fun DropdownSelectorField(
+    selectedOption: String,
+    onOptionSelected: (String) -> Unit,
+    options: List<String> = listOf("Male", "Female"),
+    placeholder: String,
+    leadingIcon: ImageVector,
+    fontSize: TextUnit = LocalResponsiveSizes.current.buttonFontSize,
+    modifier: Modifier = Modifier
+        .fillMaxWidth()
+        .padding(vertical = 6.dp),
+    containerColor: Color = Color.White.copy(alpha = 0.1f),
+    borderColor: Color = Color.White.copy(alpha = 0.3f),
+    textColor: Color = Color.White
+) {
+    var expanded by remember { mutableStateOf(false) }
+
+    Box(modifier = modifier) {
+        OutlinedTextField(
+            value = selectedOption,
+            onValueChange = {},
+            placeholder = {
+                Text(
+                    text = placeholder,
+                    color = Color.LightGray,
+                    fontSize = fontSize
+                )
+            },
+            leadingIcon = {
+                Icon(
+                    imageVector = leadingIcon,
+                    contentDescription = placeholder,
+                    tint = Color.White,
+                    modifier = Modifier
+                        .clip(CircleShape)
+                        .background(Color.White.copy(alpha = 0.1f))
+                        .padding(6.dp)
+                )
+            },
+            trailingIcon = {
+                Icon(
+                    imageVector = if (expanded) Icons.Default.KeyboardArrowUp else Icons.Default.KeyboardArrowDown,
+                    contentDescription = "Dropdown Arrow",
+                    tint = Color.White
+                )
+            },
+            singleLine = true,
+            readOnly = true,
+            enabled = false,
+            shape = RoundedCornerShape(50),
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(vertical = 0.dp), // prevent double-padding
+            colors = OutlinedTextFieldDefaults.colors(
+                disabledBorderColor = borderColor,
+                disabledTextColor = textColor,
+                disabledPlaceholderColor = Color.LightGray,
+                disabledLeadingIconColor = Color.White,
+                disabledTrailingIconColor = Color.White,
+                disabledContainerColor = containerColor
+            ),
+            textStyle = LocalTextStyle.current.copy(
+                color = textColor,
+                fontSize = fontSize
+            )
+        )
+
+        Box(
+            Modifier
+                .matchParentSize()
+                .clickable { expanded = true }
+        )
+
+        DropdownMenu(
+            expanded = expanded,
+            onDismissRequest = { expanded = false },
+            modifier = Modifier
+                .background(containerColor)
+                .clip(RoundedCornerShape(12.dp))
+        ) {
+            options.forEach { option ->
+                DropdownMenuItem(
+                    modifier = Modifier
+                        .background(Color(0xFF2E7D32)),
+                    text = {
+                        Text(
+                            text = option,
+                            color = Color.White,
+                            fontSize = fontSize
+                        )
+                    },
+                    onClick = {
+                        onOptionSelected(option)
+                        expanded = false
+                    }
+                )
+            }
+        }
+    }
+}
+
+
+
+
 

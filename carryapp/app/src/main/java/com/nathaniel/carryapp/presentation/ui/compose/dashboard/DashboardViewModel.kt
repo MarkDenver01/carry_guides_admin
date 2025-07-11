@@ -43,6 +43,10 @@ class DashboardViewModel @Inject constructor() : ViewModel() {
         // persist state to preferences if needed
     }
 
+    fun onChangePassword() {
+        _navigateTo.value = Routes.CHANGE_PASSWORD
+    }
+
     fun onSelectPreferences() {
         // logic if needed
     }

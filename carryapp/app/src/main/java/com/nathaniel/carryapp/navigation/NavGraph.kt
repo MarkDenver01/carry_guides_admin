@@ -3,7 +3,9 @@ package com.nathaniel.carryapp.navigation
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
+import com.nathaniel.carryapp.presentation.ui.compose.account.change_password.ChangePasswordScreen
 import com.nathaniel.carryapp.presentation.ui.compose.account.display_profile.DisplayProfileScreen
+import com.nathaniel.carryapp.presentation.ui.compose.account.update_profile.UpdateProfileScreen
 import com.nathaniel.carryapp.presentation.ui.compose.dashboard.DashboardScreen
 import com.nathaniel.carryapp.presentation.ui.compose.dashboard.delivery.DeliveryScreen
 import com.nathaniel.carryapp.presentation.ui.compose.dashboard.pickup.PickupScreen
@@ -44,5 +46,13 @@ fun NavGraphBuilder.signInGraph(navController: NavController) {
 fun NavGraphBuilder.displayUserProfileGraph(navController: NavController) {
     composable(Routes.DISPLAY_PROFILE) {
         DisplayProfileScreen(navController = navController)
+    }
+
+    composable(Routes.UPDATE_PROFILE) {
+        UpdateProfileScreen(navController = navController)
+    }
+
+    composable(Routes.CHANGE_PASSWORD) {
+        ChangePasswordScreen(navController = navController)
     }
 }

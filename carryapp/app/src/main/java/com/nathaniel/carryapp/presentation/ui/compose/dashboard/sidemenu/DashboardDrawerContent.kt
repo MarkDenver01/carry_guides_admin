@@ -62,7 +62,13 @@ fun DashboardDrawerContent(
                 viewModel.onDisplayProfile()
             })
         Divider()
-        DrawerItem("Change Password", Icons.Default.Lock, textSize = textSize)
+        DrawerItem(
+            "Change Password",
+            Icons.Default.Lock,
+            textSize = textSize,
+            onClick = {
+                viewModel.onChangePassword()
+            })
         DrawerItem("Apply Membership", Icons.Default.Star, textSize = textSize)
         DrawerItem("Address Book", Icons.Default.LocationOn, textSize = textSize)
         DrawerItem("My Voucher", Icons.Default.Star, textSize = textSize)

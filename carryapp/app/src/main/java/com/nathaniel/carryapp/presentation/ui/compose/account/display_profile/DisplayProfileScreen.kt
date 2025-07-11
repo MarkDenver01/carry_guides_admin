@@ -2,7 +2,6 @@ package com.nathaniel.carryapp.presentation.ui.compose.account.display_profile
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -26,7 +25,6 @@ import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.SegmentedButtonDefaults.Icon
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
@@ -44,15 +42,11 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
-import com.nathaniel.carryapp.R
 import com.nathaniel.carryapp.domain.enum.ButtonVariants
-import com.nathaniel.carryapp.domain.request.SignUpRequest
 import com.nathaniel.carryapp.presentation.theme.LocalAppSpacing
 import com.nathaniel.carryapp.presentation.theme.LocalResponsiveSizes
 import com.nathaniel.carryapp.presentation.ui.compose.account.AccountViewModel
-import com.nathaniel.carryapp.presentation.ui.compose.navigation.BottomNavigationBar
 import com.nathaniel.carryapp.presentation.ui.compose.navigation.TopNavigationBar
-import com.nathaniel.carryapp.presentation.utils.AuthSocialButton
 import com.nathaniel.carryapp.presentation.utils.DynamicButton
 import com.nathaniel.carryapp.presentation.utils.IconButton
 import com.nathaniel.carryapp.presentation.utils.responsiveDp
@@ -164,7 +158,7 @@ fun DisplayProfileScreen(
                         )
 
                         IconButton(
-                            onClick = { },
+                            onClick = { viewModel.onEditAccount() },
                              Modifier.width(54.dp),
                             height = 34.dp,
                             fontSize = 13.sp,
@@ -182,13 +176,13 @@ fun DisplayProfileScreen(
                         modifier = Modifier.fillMaxWidth()
                     ) {
                         Column(modifier = Modifier.padding(16.dp)) {
-                            ProfileField("FULLNAME", "User")
+                            ProfileField("FULL NAME", "User")
                             Divider()
                             ProfileField("MOBILE NUMBER", "09453678453")
                             Divider()
                             ProfileField("EMAIL ADDRESS", "N/A")
                             Divider()
-                            ProfileField("ADRESS", "N/A") // Note: Typo retained for accuracy
+                            ProfileField("ADDRESS", "N/A") // Note: Typo retained for accuracy
                             Divider()
                             ProfileField("Birthday", "June 24, 2003")
                             Divider()

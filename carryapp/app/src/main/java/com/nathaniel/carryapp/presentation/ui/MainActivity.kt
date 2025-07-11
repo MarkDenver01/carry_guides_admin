@@ -44,7 +44,6 @@ class MainActivity : ComponentActivity() {
                     dashboardGraph(navController)
                     displayUserProfileGraph(navController)
                 }
-
             }
         }
     }
