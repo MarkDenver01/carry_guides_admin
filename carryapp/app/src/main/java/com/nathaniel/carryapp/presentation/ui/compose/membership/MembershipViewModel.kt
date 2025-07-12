@@ -19,4 +19,12 @@ class MembershipViewModel @Inject constructor() : ViewModel() {
     fun onAvailableNow() {
         _navigateTo.value = Routes.SUBSCRIPTION
     }
+
+    fun onGcashClick() {
+
+    }
+
+    fun onMayaClick() {
+
+    }
 }

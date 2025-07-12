@@ -4,7 +4,9 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
@@ -23,12 +25,15 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
+import com.nathaniel.carryapp.domain.enum.ButtonVariants
 import com.nathaniel.carryapp.presentation.theme.LocalAppSpacing
 import com.nathaniel.carryapp.presentation.theme.LocalResponsiveSizes
 import com.nathaniel.carryapp.presentation.ui.compose.membership.MembershipViewModel
 import com.nathaniel.carryapp.presentation.ui.compose.navigation.TopNavigationBar
+import com.nathaniel.carryapp.presentation.utils.IconButton
 import com.nathaniel.carryapp.presentation.utils.responsiveDp
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -59,7 +64,7 @@ fun ViewMembershipScreen(
         topBar = {
             TopNavigationBar(
                 navController = navController,
-                title = "Suki Membership",
+                title = "Membership Details",
                 showBackButton = true,
                 showMenuButton = false,
                 scrollBehavior = scrollBehavior
@@ -83,15 +88,8 @@ fun ViewMembershipScreen(
                     ),
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                Text(
-                    text = "It's working!",
-                    fontSize = sizes.titleFontSize,
-                    fontWeight = FontWeight.Bold,
-                    color = Color.Black,
-                    modifier = Modifier
-                        .background(Color(0xFFCDDC39), RoundedCornerShape(32.dp))
-                        .padding(horizontal = spacing.lg, vertical = spacing.sm)
-                )
+                // START
+
             }
         }
     }

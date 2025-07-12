@@ -8,6 +8,7 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.HoverInteraction
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.interaction.PressInteraction
+import androidx.compose.foundation.interaction.collectIsHoveredAsState
 import androidx.compose.foundation.interaction.collectIsPressedAsState
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -56,6 +57,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
@@ -374,6 +376,118 @@ fun IconButton(
         }
     }
 }
+
+@Composable
+fun IconButtonWithDescription(
+    onClick: () -> Unit,
+    modifier: Modifier = Modifier,
+    height: Dp = LocalResponsiveSizes.current.buttonHeight,
+    fontSize: TextUnit = LocalResponsiveSizes.current.buttonFontSize,
+    variant: ButtonVariants = ButtonVariants.Filled,
+    imageVector: ImageVector? = null,
+    painter: Painter? = null,
+    title: String? = null,
+    description: String? = null,
+    backgroundColor: Color = Color(0xFF2E7D32),
+    outlinedBorderColor: Color = Color.White.copy(alpha = 0.4f),
+    contentColor: Color = Color.White,
+    enabled: Boolean = true
+) {
+    val interactionSource = remember { MutableInteractionSource() }
+    val isPressed by interactionSource.collectIsPressedAsState()
+    val isHovered by interactionSource.collectIsHoveredAsState()
+
+    val isOutlined = variant == ButtonVariants.Outlined
+    val isFilled = variant == ButtonVariants.Filled
+    val isTonal = variant == ButtonVariants.Tonal
+
+    // Background color animation
+    val containerColor by animateColorAsState(
+        targetValue = when {
+            !enabled -> Color.Gray.copy(alpha = 0.2f)
+            isPressed -> backgroundColor.darken()
+            isHovered && isOutlined -> backgroundColor.copy(alpha = 0.08f)
+            isHovered && isFilled -> backgroundColor.copy(alpha = 0.85f)
+            isFilled -> backgroundColor
+            isTonal -> Color.White.copy(alpha = if (isPressed) 0.16f else 0.08f)
+            isOutlined -> Color.Transparent
+            else -> Color.Transparent
+        },
+        label = "ContainerColor"
+    )
+
+    val borderColor by animateColorAsState(
+        targetValue = when {
+            !enabled -> Color.LightGray
+            isHovered && isOutlined -> backgroundColor
+            isPressed && isOutlined -> backgroundColor
+            isOutlined -> outlinedBorderColor
+            else -> Color.Transparent
+        },
+        label = "BorderColor"
+    )
+
+    val iconTint = if (!enabled) Color.LightGray else contentColor
+    val textColor = if (!enabled) Color.LightGray else contentColor
+
+    Button(
+        onClick = onClick,
+        enabled = enabled,
+        modifier = modifier.height(height),
+        shape = RoundedCornerShape(12.dp),
+        colors = ButtonDefaults.buttonColors(
+            containerColor = containerColor,
+            contentColor = textColor,
+            disabledContainerColor = containerColor,
+            disabledContentColor = textColor
+        ),
+        border = if (isOutlined) BorderStroke(1.5.dp, borderColor) else null,
+        interactionSource = interactionSource,
+        contentPadding = PaddingValues(horizontal = 12.dp, vertical = 8.dp)
+    ) {
+        Row(
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.spacedBy(8.dp),
+            modifier = Modifier.fillMaxWidth()
+        ) {
+            Column(modifier = Modifier.weight(1f)) {
+                title?.let {
+                    Text(
+                        text = it,
+                        fontSize = fontSize,
+                        fontWeight = FontWeight.SemiBold,
+                        color = textColor
+                    )
+                }
+                description?.let {
+                    Text(
+                        text = it,
+                        fontSize = fontSize * 0.8f,
+                        color = textColor.copy(alpha = 0.8f)
+                    )
+                }
+            }
+
+            if (imageVector != null) {
+                Icon(
+                    imageVector = imageVector,
+                    contentDescription = null,
+                    tint = iconTint,
+                    modifier = Modifier.size(fontSize.value.dp + 4.dp)
+                )
+            } else if (painter != null) {
+                Icon(
+                    painter = painter,
+                    contentDescription = null,
+                    tint = iconTint,
+                    modifier = Modifier.size(fontSize.value.dp + 4.dp)
+                )
+            }
+        }
+    }
+}
+
+
 
 @Composable
 fun DatePickerField(

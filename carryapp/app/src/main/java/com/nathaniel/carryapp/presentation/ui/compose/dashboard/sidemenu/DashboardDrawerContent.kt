@@ -63,8 +63,7 @@ fun DashboardDrawerContent(
         Spacer(modifier = Modifier.height(sectionSpacing))
 
         VerifiedSukiCard(
-            status = BadgeStatus.VERIFIED,
-            points = 2700,
+            status = BadgeStatus.NOT_MEMBER,
             viewModel = viewModel
         )
         Divider()
