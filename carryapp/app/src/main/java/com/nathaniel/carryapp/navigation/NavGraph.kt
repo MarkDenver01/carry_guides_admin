@@ -11,6 +11,9 @@ import com.nathaniel.carryapp.presentation.ui.compose.dashboard.delivery.Deliver
 import com.nathaniel.carryapp.presentation.ui.compose.dashboard.pickup.PickupScreen
 import com.nathaniel.carryapp.presentation.ui.compose.initial.InitialScreen
 import com.nathaniel.carryapp.presentation.ui.compose.membership.apply.SukiMembershipScreen
+import com.nathaniel.carryapp.presentation.ui.compose.membership.payment.SubscriptionScreen
+import com.nathaniel.carryapp.presentation.ui.compose.membership.suki_badge.VerifiedSukiCard
+import com.nathaniel.carryapp.presentation.ui.compose.membership.view.ViewMembershipScreen
 import com.nathaniel.carryapp.presentation.ui.compose.signin.SignInScreen
 import com.nathaniel.carryapp.presentation.ui.compose.signup.SignUpScreen
 
@@ -29,6 +32,9 @@ fun NavGraphBuilder.dashboardGraph(navController: NavController) {
     }
     composable(Routes.PICKUP) {
         PickupScreen(navController = navController)
+    }
+    composable(Routes.BADGE_DETAILS) {
+        ViewMembershipScreen(navController = navController)
     }
 }
 
@@ -61,5 +67,9 @@ fun NavGraphBuilder.displayUserProfileGraph(navController: NavController) {
 fun NavGraphBuilder.membershipGraph(navController: NavController) {
     composable(Routes.MEMBERSHIP) {
         SukiMembershipScreen(navController = navController)
+    }
+
+    composable(Routes.SUBSCRIPTION) {
+        SubscriptionScreen(navController = navController)
     }
 }

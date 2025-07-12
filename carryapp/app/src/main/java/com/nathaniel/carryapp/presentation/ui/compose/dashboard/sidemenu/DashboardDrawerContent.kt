@@ -4,12 +4,15 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Divider
 import androidx.compose.material.Switch
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ExitToApp
 import androidx.compose.material.icons.filled.*
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.*
@@ -17,8 +20,13 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.nathaniel.carryapp.R
+import com.nathaniel.carryapp.domain.enum.BadgeStatus
 import com.nathaniel.carryapp.presentation.ui.compose.dashboard.DashboardViewModel
+import com.nathaniel.carryapp.presentation.ui.compose.membership.apply.MembershipInfoParagraph
+import com.nathaniel.carryapp.presentation.ui.compose.membership.suki_badge.VerifiedSukiCard
 import com.nathaniel.carryapp.presentation.utils.responsiveDp
 import com.nathaniel.carryapp.presentation.utils.responsiveSp
 
@@ -54,6 +62,12 @@ fun DashboardDrawerContent(
 
         Spacer(modifier = Modifier.height(sectionSpacing))
 
+        VerifiedSukiCard(
+            status = BadgeStatus.VERIFIED,
+            points = 2700,
+            viewModel = viewModel
+        )
+        Divider()
         DrawerItem(
             "My Account",
             Icons.Default.Person,
@@ -61,7 +75,6 @@ fun DashboardDrawerContent(
             onClick = {
                 viewModel.onDisplayProfile()
             })
-        Divider()
         DrawerItem(
             "Change Password",
             Icons.Default.Lock,
@@ -69,16 +82,8 @@ fun DashboardDrawerContent(
             onClick = {
                 viewModel.onChangePassword()
             })
-        DrawerItem(
-            "Apply Membership",
-            Icons.Default.Star,
-            textSize = textSize,
-            onClick = {
-                viewModel.onMembership()
-            })
         DrawerItem("Address Book", Icons.Default.LocationOn, textSize = textSize)
         DrawerItem("My Voucher", Icons.Default.Star, textSize = textSize)
-        DrawerItem("My Suki Points", Icons.Default.ThumbUp, textSize = textSize)
 
         Divider(modifier = Modifier.padding(vertical = dividerSpacing))
 

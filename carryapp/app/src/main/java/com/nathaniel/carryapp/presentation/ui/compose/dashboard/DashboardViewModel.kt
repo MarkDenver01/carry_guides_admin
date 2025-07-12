@@ -55,4 +55,8 @@ class DashboardViewModel @Inject constructor() : ViewModel() {
         // logic if needed
     }
 
+    fun onVerifiedBadge() {
+        _navigateTo.value = Routes.BADGE_DETAILS
+    }
+
 }

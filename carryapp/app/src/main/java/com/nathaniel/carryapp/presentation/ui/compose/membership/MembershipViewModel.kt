@@ -1,6 +1,7 @@
 package com.nathaniel.carryapp.presentation.ui.compose.membership
 
 import androidx.lifecycle.ViewModel
+import com.nathaniel.carryapp.navigation.Routes
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -13,5 +14,9 @@ class MembershipViewModel @Inject constructor() : ViewModel() {
 
     fun resetNavigation() {
         _navigateTo.value = null
+    }
+
+    fun onAvailableNow() {
+        _navigateTo.value = Routes.SUBSCRIPTION
     }
 }
