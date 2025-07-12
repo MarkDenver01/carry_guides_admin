@@ -69,7 +69,13 @@ fun DashboardDrawerContent(
             onClick = {
                 viewModel.onChangePassword()
             })
-        DrawerItem("Apply Membership", Icons.Default.Star, textSize = textSize)
+        DrawerItem(
+            "Apply Membership",
+            Icons.Default.Star,
+            textSize = textSize,
+            onClick = {
+                viewModel.onMembership()
+            })
         DrawerItem("Address Book", Icons.Default.LocationOn, textSize = textSize)
         DrawerItem("My Voucher", Icons.Default.Star, textSize = textSize)
         DrawerItem("My Suki Points", Icons.Default.ThumbUp, textSize = textSize)

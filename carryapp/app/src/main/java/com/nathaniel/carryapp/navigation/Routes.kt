@@ -17,4 +17,6 @@ object Routes {
     const val UPDATE_PROFILE = "update_profile"
 
     const val CHANGE_PASSWORD = "change_password"
+
+    const val MEMBERSHIP = "membership"
 }

@@ -11,14 +11,17 @@ import androidx.compose.foundation.interaction.PressInteraction
 import androidx.compose.foundation.interaction.collectIsPressedAsState
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.defaultMinSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.platform.LocalConfiguration
@@ -27,11 +30,14 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.Divider
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.KeyboardArrowDown
 import androidx.compose.material.icons.filled.KeyboardArrowUp
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.Icon
@@ -53,15 +59,21 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.font.FontStyle
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import com.nathaniel.carryapp.R
 import com.nathaniel.carryapp.domain.enum.ButtonVariants
+import com.nathaniel.carryapp.presentation.theme.LocalAppColors
+import com.nathaniel.carryapp.presentation.theme.LocalAppSpacing
 import com.nathaniel.carryapp.presentation.theme.LocalResponsiveSizes
 import kotlinx.coroutines.flow.collectLatest
 import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Locale
+
+import androidx.compose.ui.text.style.TextOverflow
 
 @Composable
 fun responsiveHeightFraction(
@@ -559,10 +571,84 @@ fun DropdownSelectorField(
                 )
             }
         }
+
     }
+
 }
 
+@Composable
+fun DynamicInfoCard(
+    title: String,
+    content: String,
+    footerReminder: String,
+    modifier: Modifier = Modifier,
+    height: Dp = Dp.Unspecified,
+    backgroundColor: Color = Color.White.copy(alpha = 0.06f),
+    titleFontSize: TextUnit = LocalResponsiveSizes.current.titleFontSize,
+    bodyFontSize: TextUnit = LocalResponsiveSizes.current.buttonFontSize,
+    footerFontSize: TextUnit = LocalResponsiveSizes.current.labelFontSize,
+    icon: ImageVector? = null,
+    iconColor: Color = Color.White
+) {
+    val spacing = LocalAppSpacing.current
 
+    Card(
+        shape = RoundedCornerShape(12.dp),
+        colors = CardDefaults.cardColors(containerColor = backgroundColor),
+        modifier = modifier
+            .fillMaxWidth()
+            .then(if (height != Dp.Unspecified) Modifier.height(height) else Modifier)
+            .padding(horizontal = spacing.md, vertical = spacing.sm)
+    ) {
+        Column(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(spacing.md)
+        ) {
+            // Header: Title + Optional Icon
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
+                modifier = Modifier.fillMaxWidth()
+            ) {
+                if (icon != null) {
+                    Icon(
+                        imageVector = icon,
+                        contentDescription = null,
+                        tint = iconColor,
+                        modifier = Modifier
+                            .size(LocalResponsiveSizes.current.iconSize)
+                            .padding(end = spacing.sm)
+                    )
+                }
+                Text(
+                    text = title,
+                    color = LocalAppColors.current.textPrimary,
+                    fontSize = titleFontSize,
+                    fontWeight = FontWeight.SemiBold,
+                    modifier = Modifier.weight(1f)
+                )
+            }
 
+            Spacer(modifier = Modifier.height(spacing.sm))
 
+            // Body content
+            Text(
+                text = content,
+                color = LocalAppColors.current.textPrimary.copy(alpha = 0.95f),
+                fontSize = bodyFontSize,
+                modifier = Modifier.fillMaxWidth()
+            )
 
+            Spacer(modifier = Modifier.height(spacing.md))
+
+            // Footer
+            Text(
+                text = footerReminder,
+                color = LocalAppColors.current.textSecondary,
+                fontSize = footerFontSize,
+                fontStyle = FontStyle.Italic,
+                modifier = Modifier.fillMaxWidth()
+            )
+        }
+    }
+}

@@ -10,6 +10,7 @@ import com.nathaniel.carryapp.presentation.ui.compose.dashboard.DashboardScreen
 import com.nathaniel.carryapp.presentation.ui.compose.dashboard.delivery.DeliveryScreen
 import com.nathaniel.carryapp.presentation.ui.compose.dashboard.pickup.PickupScreen
 import com.nathaniel.carryapp.presentation.ui.compose.initial.InitialScreen
+import com.nathaniel.carryapp.presentation.ui.compose.membership.apply.SukiMembershipScreen
 import com.nathaniel.carryapp.presentation.ui.compose.signin.SignInScreen
 import com.nathaniel.carryapp.presentation.ui.compose.signup.SignUpScreen
 
@@ -54,5 +55,11 @@ fun NavGraphBuilder.displayUserProfileGraph(navController: NavController) {
 
     composable(Routes.CHANGE_PASSWORD) {
         ChangePasswordScreen(navController = navController)
+    }
+}
+
+fun NavGraphBuilder.membershipGraph(navController: NavController) {
+    composable(Routes.MEMBERSHIP) {
+        SukiMembershipScreen(navController = navController)
     }
 }

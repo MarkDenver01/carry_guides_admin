@@ -47,6 +47,10 @@ class DashboardViewModel @Inject constructor() : ViewModel() {
         _navigateTo.value = Routes.CHANGE_PASSWORD
     }
 
+    fun onMembership() {
+        _navigateTo.value = Routes.MEMBERSHIP
+    }
+
     fun onSelectPreferences() {
         // logic if needed
     }
