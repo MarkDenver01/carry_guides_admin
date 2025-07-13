@@ -21,4 +21,6 @@ object Routes {
     const val MEMBERSHIP = "membership"
     const val SUBSCRIPTION = "subscription"
     const val BADGE_DETAILS = "badge_details"
+
+    const val VOUCHER = "voucher"
 }

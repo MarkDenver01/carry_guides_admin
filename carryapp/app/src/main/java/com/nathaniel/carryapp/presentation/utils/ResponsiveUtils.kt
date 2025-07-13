@@ -16,13 +16,11 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.defaultMinSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.platform.LocalConfiguration
@@ -31,7 +29,6 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.Divider
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.KeyboardArrowDown
 import androidx.compose.material.icons.filled.KeyboardArrowUp
@@ -74,8 +71,6 @@ import kotlinx.coroutines.flow.collectLatest
 import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Locale
-
-import androidx.compose.ui.text.style.TextOverflow
 
 @Composable
 fun responsiveHeightFraction(
@@ -138,10 +133,11 @@ fun AuthTextField(
     onValueChange: (String) -> Unit,
     placeholder: String,
     isPassword: Boolean = false,
-    leadingIcon: ImageVector,
+    leadingIcon: ImageVector? = null,
+    leadingIconPainter: Painter? = null,
     fontSize: TextUnit = LocalResponsiveSizes.current.buttonFontSize,
+    modifier: Modifier = Modifier
 ) {
-    // Password visibility toggle state (only used if isPassword is true)
     var passwordVisible by remember { mutableStateOf(false) }
 
     OutlinedTextField(
@@ -155,19 +151,35 @@ fun AuthTextField(
             )
         },
         leadingIcon = {
-            Icon(
-                imageVector = leadingIcon,
-                contentDescription = placeholder,
-                tint = Color.White,
-                modifier = Modifier
-                    .clip(CircleShape)
-                    .background(Color.White.copy(alpha = 0.1f))
-                    .padding(6.dp)
-            )
+            when {
+                leadingIcon != null -> {
+                    Icon(
+                        imageVector = leadingIcon,
+                        contentDescription = placeholder,
+                        tint = Color.White,
+                        modifier = Modifier
+                            .clip(CircleShape)
+                            .background(Color.White.copy(alpha = 0.1f))
+                            .padding(6.dp)
+                    )
+                }
+                leadingIconPainter != null -> {
+                    Icon(
+                        painter = leadingIconPainter,
+                        contentDescription = placeholder,
+                        tint = Color.White,
+                        modifier = Modifier
+                            .clip(CircleShape)
+                            .background(Color.White.copy(alpha = 0.1f))
+                            .padding(6.dp)
+                    )
+                }
+            }
         },
         trailingIcon = {
             if (isPassword) {
-                val visibilityIcon = if (passwordVisible) R.drawable.ic_visibility_show else R.drawable.ic_visibility_hide
+                val visibilityIcon =
+                    if (passwordVisible) R.drawable.ic_visibility_show else R.drawable.ic_visibility_hide
                 val description = if (passwordVisible) "Hide password" else "Show password"
                 IconButton(onClick = { passwordVisible = !passwordVisible }) {
                     Icon(
@@ -180,7 +192,7 @@ fun AuthTextField(
         },
         singleLine = true,
         shape = RoundedCornerShape(50),
-        modifier = Modifier
+        modifier = modifier
             .fillMaxWidth()
             .padding(vertical = 6.dp),
         colors = OutlinedTextFieldDefaults.colors(
@@ -192,13 +204,16 @@ fun AuthTextField(
             focusedContainerColor = Color.White.copy(alpha = 0.1f),
             unfocusedContainerColor = Color.White.copy(alpha = 0.05f)
         ),
-        visualTransformation = if (isPassword && !passwordVisible) PasswordVisualTransformation() else VisualTransformation.None,
+        visualTransformation = if (isPassword && !passwordVisible)
+            PasswordVisualTransformation() else VisualTransformation.None,
         textStyle = LocalTextStyle.current.copy(
             color = Color.White,
             fontSize = fontSize
         )
     )
 }
+
+
 
 
 @Composable

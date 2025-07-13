@@ -16,6 +16,7 @@ import com.nathaniel.carryapp.presentation.ui.compose.membership.suki_badge.Veri
 import com.nathaniel.carryapp.presentation.ui.compose.membership.view.ViewMembershipScreen
 import com.nathaniel.carryapp.presentation.ui.compose.signin.SignInScreen
 import com.nathaniel.carryapp.presentation.ui.compose.signup.SignUpScreen
+import com.nathaniel.carryapp.presentation.ui.compose.voucher.VoucherScreen
 
 fun NavGraphBuilder.initialGraph(navController: NavController) {
     composable(Routes.INITIAL) {
@@ -35,6 +36,10 @@ fun NavGraphBuilder.dashboardGraph(navController: NavController) {
     }
     composable(Routes.BADGE_DETAILS) {
         ViewMembershipScreen(navController = navController)
+    }
+
+    composable(Routes.VOUCHER) {
+        VoucherScreen(navController = navController)
     }
 }
 

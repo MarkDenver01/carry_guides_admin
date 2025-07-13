@@ -59,4 +59,8 @@ class DashboardViewModel @Inject constructor() : ViewModel() {
         _navigateTo.value = Routes.BADGE_DETAILS
     }
 
+    fun onVoucher() {
+        _navigateTo.value = Routes.VOUCHER
+    }
+
 }

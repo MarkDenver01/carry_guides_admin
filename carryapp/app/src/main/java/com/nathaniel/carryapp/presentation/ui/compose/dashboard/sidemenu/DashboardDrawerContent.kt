@@ -82,7 +82,13 @@ fun DashboardDrawerContent(
                 viewModel.onChangePassword()
             })
         DrawerItem("Address Book", Icons.Default.LocationOn, textSize = textSize)
-        DrawerItem("My Voucher", Icons.Default.Star, textSize = textSize)
+        DrawerItem(
+            "My Voucher",
+            Icons.Default.Star,
+            textSize = textSize,
+            onClick = {
+                viewModel.onVoucher()
+            })
 
         Divider(modifier = Modifier.padding(vertical = dividerSpacing))
 
